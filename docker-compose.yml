@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  back:
+    build: ./back
+    container_name: back_p7
+    environment:
+     - MYSQL_USR: /run/secrets/db_usr
+     - MYSQL_PASS: /run/secrets/db_pass
+     - MYSQL_DB: "p7"
+    secrets:
+     - db_usr
+     - db_pass
+    volumes:
+     - ./back:/app
+    ports:
+     - 3000:3000
+    networks:
+     - front-net
+     - back-net
+    restart: unless-stopped
+
+  front:
+   build: ./front
+   container_name: front_p7
+   volumes:
+     - ./front:/app
+   ports:
+    - 8080:80
+   networks:
+    - front-net
+   restart: unless-stopped
+
+  database:
+    image: mysql:latest
+    container_name: db_p7
+    environment:
+     MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root
+     MYSQL_PASSWORD_FILE: /run/secrets/db_pass
+    secrets:
+      - db_root
+      - db_pass
+    ports:
+     - 27017:27017
+    networks:
+     - back-net
+
+networks:
+  back-net:
+  front-net:
+
+secrets:
+  db_root:
+   file: ./secrets/db_root
+  db_pass:
+   file: ./secrets/db_pass
