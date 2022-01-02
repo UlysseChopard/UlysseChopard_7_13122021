@@ -9,6 +9,7 @@
   "author": "UCG",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.2",
     "mysql2": "^2.3.3",
     "sequelize": "^7.0.0-alpha.4"
   }
