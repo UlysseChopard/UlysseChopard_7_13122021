@@ -1,5 +1,10 @@
 const http = require("http");
 const app = require("./app");
+const db = require("./db");
+
+db.sequelize
+  .sync({ force: true })
+  .then(() => console.log("Dropped and resynced db"));
 
 const normalizePort = (val) => {
   const port = parseInt(val, 10);

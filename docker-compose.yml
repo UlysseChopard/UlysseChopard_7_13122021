@@ -5,13 +5,15 @@ services:
     build: ./back
     container_name: back_p7
     environment:
-     MYSQL_USR: /run/secrets/db_usr
-     MYSQL_PASS: /run/secrets/db_pass
-     MYSQL_DB: p7
-     MYSQL_HOST: db:3306
+     DB_USR: /run/secrets/db_usr
+     DB_PASS: /run/secrets/db_pass
+     DB_NAME: /run/secrets/db_name
+     DB_HOST: database
+     DB_PORT: 3306
     secrets:
      - db_usr
      - db_pass
+     - db_name 
     volumes:
      - ./back:/app
     ports:
@@ -38,9 +40,13 @@ services:
     environment:
      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root
      MYSQL_PASSWORD_FILE: /run/secrets/db_pass
+     MYSQL_USER_FILE: /run/secrets/db_usr
+     MYSQL_DATABASE_FILE: /run/secrets/db_name
     secrets:
       - db_root
       - db_pass
+      - db_usr 
+      - db_name 
     networks:
      - back-net
 
@@ -55,3 +61,6 @@ secrets:
    file: ./secrets/db_pass
   db_usr:
    file: ./secrets/db_usr
+  
+  db_name:
+   file: ./secrets/db_name

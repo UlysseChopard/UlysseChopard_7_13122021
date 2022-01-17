@@ -1,20 +1,21 @@
 <template>
-  <div>
-    <img alt="Vue logo" src="./assets/logos/icon.svg" />
-    <Counter />
-    <EventHandler />
+  <div id="app">
+    <app-nav></app-nav>
+    <app-view>
+      <app-sidebar></app-sidebar>
+      <app-content></app-content>
+    </app-view>
   </div>
 </template>
 
 <script>
-import Counter from "./components/Counter.vue";
-import EventHandler from "./components/EventHandler.vue";
-
 export default {
   name: "App",
   components: {
-    Counter,
-    EventHandler,
+    AppNav,
+    AppView,
+    AppSidebar,
+    AppContent,
   },
 };
 </script>
