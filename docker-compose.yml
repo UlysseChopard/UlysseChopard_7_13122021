@@ -24,10 +24,10 @@ services:
     restart: unless-stopped
 
   front:
-   build: ./front
+   build: ./front_app
    container_name: front_p7
    volumes:
-     - ./front:/app
+     - ./front_app:/app
    ports:
     - 8080:80
    networks:
