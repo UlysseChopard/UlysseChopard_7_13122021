@@ -4,7 +4,8 @@ const db = require("./db");
 
 db.sequelize
   .sync({ force: true })
-  .then(() => console.log("Dropped and resynced db"));
+  .then(() => console.log("Dropped and resynced db"))
+  .catch(console.error);
 
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
