@@ -1,0 +1,81 @@
+<template>
+    <v-card>
+        <v-card-img>
+            <v-img src="src/assets/logos/icon.svg" />
+        </v-card-img>
+        <v-card-text>
+            <v-container fluid fill-height>
+                <v-row justify="center">
+                    <v-card-title>
+                        <span class="text-h5">Connection</span>
+                    </v-card-title>
+                    <v-row justify="center">
+                        <v-col cols="10">
+                            <v-text-field label="Adresse mail" v-model.lazy.trim="user.email" suffix="@groupomania.com" required />
+                        </v-col>
+                        <v-col cols="10">
+                            <v-text-field label="Mot de passe" v-model.trim.lazy="user.password" type="password" required />
+                        </v-col>
+                        <v-col cols="10" md="5">
+                            <small>Tous les champs sont requis.</small>
+                        </v-col>
+                    </v-row>
+                </v-row>
+            </v-container>
+        </v-card-text>
+        <v-card-actions>
+            <v-container fill-height fluid>
+                <v-row justify="center">
+                    <v-col cols="8" md="6">
+                        <v-btn block color="green-darken-1" class="text-white" to="/news" @click.prevent="displayUser">Se connecter</v-btn>
+                    </v-col>
+                    <v-col cols="10">
+                        <v-spacer />
+                    </v-col>
+                </v-row>
+                <v-row justify="space-between" cols="10">
+                    <v-col cols="auto">
+                        <v-btn  density="compact" variant="text" to="/">Retour</v-btn>
+                    </v-col>
+                    <v-col cols="auto">
+                        <v-btn to="/signup" density="compact" variant="text">
+                            Je n'ai pas de compte
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-card-actions>
+    </v-card>
+</template>
+<script setup>
+import { useStore } from 'vuex';
+import { reactive } from "vue";
+
+const user = reactive({
+    password: "",
+    email: ""
+});
+
+const store = useStore();
+
+const displayUser = () => console.log(user);
+
+// const user = reactive({
+//     password: computed({
+//             get() {
+//                 return store.state.user.password;
+//             },
+//             set(val) {
+//                 store.commit("modifyUser", { password: val });
+//             }
+//     }),
+//     email: computed({
+//         get() {
+//             return store.state.user.email;
+//         },
+//         set(val) {
+//             store.commit("modifyUser", { password: val });
+//         }
+//     })
+// });
+</script>
