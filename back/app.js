@@ -1,14 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 
+const logger = require("morgan");
 const express = require("express");
+const helmet = require("helmet");
+const compression = require("compression");
 
 const { sequelize } = require("./models");
 const port = 3000;
 
 const app = express();
 
+app.use(logger("dev"));
 app.use(express.json());
+app.use(helmet());
+app.use(compression());
 
 fs.readdirSync(path.join(__dirname, "/routes")).forEach((file) => {
   require(path.join(__dirname, "/routes", file))(app);
