@@ -7,7 +7,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 
 const { sequelize } = require("./models");
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const app = express();
 

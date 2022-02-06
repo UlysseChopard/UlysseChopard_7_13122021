@@ -15,22 +15,15 @@ passport.use(
         if (!user) {
           return cb(null, false, { message: "Incorrect email or password" });
         }
-        crypto.pbkdf2(
-          password,
-          user.salt,
-          310000,
-          32,
-          "sha256",
-          (err, hashedPwd) => {
-            if (err) return cb(err);
-            if (!crypto.timingSafeEqual(user.password, hashedPwd)) {
-              return cb(null, false, {
-                message: "Incorrect email or password",
-              });
-            }
-            return cb(null, user);
+        crypto.scrypt(password, user.salt, 32, (err, hashedPwd) => {
+          if (err) return cb(err);
+          if (!crypto.timingSafeEqual(user.password, hashedPwd)) {
+            return cb(null, false, {
+              message: "Incorrect email or password",
+            });
           }
-        );
+          return cb(null, user);
+        });
       } catch (e) {
         return cb(e);
       }

@@ -60,13 +60,33 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(32),
         allowNull: false,
         unique: true,
         validate: {
-          len: {
-            args: [[6, 12]],
-            msg: "User password must contain at least 6 characters, and be under 12",
+          allowEmpty: {
+            args: false,
+            msg: "User password must be provided",
+          },
+        },
+      },
+      salt: {
+        type: DataTypes.STRING.BINARY,
+        allowNull: false,
+        validate: {
+          allowEmpty: {
+            args: false,
+            msg: "Password salt missing",
+          },
+        },
+      },
+      role: {
+        type: DataTypes.ENUM("user", "moderator", "admin"),
+        defaultValue: "user",
+        validate: {
+          isIn: {
+            args: [["user", "moderator", "admin"]],
+            msg: "This role does not exist",
           },
         },
       },
