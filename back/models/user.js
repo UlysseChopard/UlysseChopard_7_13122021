@@ -60,12 +60,11 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       password: {
-        type: DataTypes.STRING(32),
+        type: DataTypes.STRING.BINARY,
         allowNull: false,
         unique: true,
         validate: {
-          allowEmpty: {
-            args: false,
+          notEmpty: {
             msg: "User password must be provided",
           },
         },
@@ -74,8 +73,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
-          allowEmpty: {
-            args: false,
+          notEmpty: {
             msg: "Password salt missing",
           },
         },

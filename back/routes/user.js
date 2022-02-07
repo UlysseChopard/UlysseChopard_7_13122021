@@ -1,18 +1,6 @@
 const { User } = require("../models");
 
 module.exports = (app) => {
-  app.post("/users", async (req, res) => {
-    const { firstname, lastname, email, password } = req.body;
-
-    try {
-      const user = await User.create({ firstname, lastname, email, password });
-      return res.json(user);
-    } catch (e) {
-      console.error(e);
-      return res.status(500).json(e);
-    }
-  });
-
   app.get("/users", async (req, res) => {
     try {
       const users = await User.findAll({ include: "posts" });

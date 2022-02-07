@@ -5,11 +5,11 @@ services:
     build: ./back
     container_name: back_p7
     environment:
-     DB_USR: /run/secrets/db_usr
-     DB_PASS: /run/secrets/db_pass
-     DB_NAME: /run/secrets/db_name
+     DB_USR_FILE: /run/secrets/db_usr
+     DB_PASS_FILE: /run/secrets/db_pass
+     DB_NAME_FILE: /run/secrets/db_name
      DB_HOST: database
-     DB_PORT: 3306
+    #  DB_PORT: 3306
     secrets:
      - db_usr
      - db_pass
@@ -24,10 +24,10 @@ services:
     restart: unless-stopped
 
   front:
-   build: ./front_app
+   build: ./front
    container_name: front_p7
    volumes:
-     - ./front_app:/app
+     - ./front:/app
    ports:
     - 8080:80
    networks:
