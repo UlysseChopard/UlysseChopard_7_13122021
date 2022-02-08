@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Post, { as: "posts", foreignKey: "userId" });
     }
     toJSON() {
-      return { ...this.get(), id: undefined };
+      return {
+        ...this.get(),
+        id: undefined,
+        password: undefined,
+        salt: undefined,
+      };
     }
   }
   User.init(
@@ -93,6 +98,11 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       tableName: "users",
       modelName: "User",
+      hooks: {
+        beforeValidate: (user, options) => {
+          user.email += "@groupomania.com";
+        },
+      },
     }
   );
   return User;

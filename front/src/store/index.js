@@ -1,8 +1,11 @@
 import { createStore } from "vuex";
-// import axios from "axios";
+import axios from "axios";
+import auth from "./auth.js";
+
+axios.defaults.baseURL = "http://localhost:3000";
 
 export default createStore({
-  state: {
+  state: () => ({
     user: {
       id: "",
       email: "",
@@ -11,7 +14,7 @@ export default createStore({
     },
     posts: [],
     alerts: [],
-  },
+  }),
   mutations: {
     modifyUser(state, user) {
       console.log("user", user);
@@ -60,5 +63,7 @@ export default createStore({
       sendSuccessMsg();
     },
   },
-  modules: {},
+  modules: {
+    auth,
+  },
 });

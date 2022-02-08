@@ -9,7 +9,6 @@ services:
      DB_PASS_FILE: /run/secrets/db_pass
      DB_NAME_FILE: /run/secrets/db_name
      DB_HOST: database
-    #  DB_PORT: 3306
     secrets:
      - db_usr
      - db_pass

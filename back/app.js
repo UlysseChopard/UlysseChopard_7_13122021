@@ -1,10 +1,8 @@
-const fs = require("fs");
-const path = require("path");
-
 const logger = require("morgan");
 const express = require("express");
 const helmet = require("helmet");
 const compression = require("compression");
+const cors = require("cors");
 
 const { sequelize } = require("./models");
 const { isAuthenticated } = require("./middlewares/auth");
@@ -16,10 +14,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(helmet());
 app.use(compression());
+app.use(cors());
 
-fs.readdirSync(path.join(__dirname, "/routes")).forEach((file) => {
-  require(path.join(__dirname, "/routes", file))(app);
-});
+require(__dirname + "/routes")(app);
 
 app.all("/test", isAuthenticated, (req, res) => {
   res.json({ user: req.user });
@@ -49,7 +46,7 @@ const server = app.listen(port, (err) => {
 });
 
 sequelize
-  .authenticate()
+  .sync({ force: true })
   .then(() => {
     console.log("Connected to database");
   })

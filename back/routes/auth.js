@@ -14,15 +14,19 @@ passport.use(
     },
     async (email, password, cb) => {
       try {
-        const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({
+          where: { email: `${email}@groupomania.com` },
+        });
         if (!user) {
           return cb(null, false, { message: "Incorrect email or password" });
         }
         console.log("user", user);
-        crypto.scrypt(
+        crypto.pbkdf2(
           password,
           Buffer.from(user.salt, "hex"),
+          310000,
           32,
+          "sha256",
           (err, hashedPwd) => {
             if (err) return cb(err);
             if (
@@ -70,33 +74,43 @@ module.exports = (app) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.post("/login", passport.authenticate("local"));
+  app.post("/login", passport.authenticate("local"), (req, res) => {
+    res.json({ message: "User connected" });
+  });
 
   app.post("/signup", (req, res, next) => {
     const salt = crypto.randomBytes(16);
-    crypto.scrypt(req.body.password, salt, 32, async (err, password) => {
-      if (err) return next(err);
-      try {
-        console.log("salt", salt);
-        console.log("pwd", password);
-        console.log({
-          ...req.body,
-          salt: salt.toString("hex"),
-          password: password.toString("hex"),
-        });
-        const user = await User.create({
-          ...req.body,
-          salt: salt.toString("hex"),
-          password: password.toString("hex"),
-        });
-        req.login(user, (error) => {
-          if (error) return next(error);
-          res.json({ message: "User created" });
-        });
-      } catch (e) {
-        return next(e);
+    crypto.pbkdf2(
+      req.body.password,
+      salt,
+      310000,
+      32,
+      "sha256",
+      async (err, password) => {
+        if (err) return next(err);
+        try {
+          console.log({
+            ...req.body,
+            email: req.body.email,
+            salt: salt.toString("hex"),
+            password: password.toString("hex"),
+          });
+          const user = await User.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            salt: salt.toString("hex"),
+            password: password.toString("hex"),
+          });
+          req.login(user, (error) => {
+            if (error) return next(error);
+            res.json({ message: "User created" });
+          });
+        } catch (e) {
+          return next(e);
+        }
       }
-    });
+    );
   });
 
   app.post("/logout", (req, res, next) => {
