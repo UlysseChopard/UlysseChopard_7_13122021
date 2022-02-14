@@ -2,25 +2,13 @@
   <v-app>
     <AppBar />
     <v-main>
-        <router-view />
+      <router-view />
     </v-main>
     <AppFooter />
   </v-app>
 </template>
 
-<script>
+<script setup>
 import AppFooter from "@/components/AppFooter.vue";
 import AppBar from "@/components/AppBar.vue";
-
-export default {
-  name: "App",
-  components: {
-    AppFooter,
-    AppBar
-  },
-  data: () => ({
-    drawer: false,
-    isConnected: false,
-  }),
-}
 </script>

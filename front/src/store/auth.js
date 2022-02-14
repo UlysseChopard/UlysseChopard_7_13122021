@@ -1,23 +1,24 @@
 import axios from "axios";
+import router from "../router";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
-const state = {
+const state = () => ({
   firstname: "",
   lastname: "",
   email: "",
   isAuth: false,
   isModerator: false,
-};
+});
 
 const mutations = {
-  logIn(state, user) {
-    state = { ...state, ...user, isAuth: true };
+  login(state, user) {
+    state.firstname = user.firstname;
+    state.lastname = user.lastname;
+    state.email = user.email;
+    state.isAuth = true;
   },
-  isModerator(state) {
-    state.isModerator = true;
-  },
-  logOut(state) {
+  logout(state) {
     state.firstname = "";
     state.lastname = "";
     state.email = "";
@@ -31,11 +32,12 @@ const actions = {
     axios
       .post("/signup", user)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
-          commit("logIn", user);
-          if (user.isModerator) {
-            commit("isModerator");
-          }
+          commit("login", res.data.user);
+          router.push("/news");
+        } else {
+          throw new Error("Unable to signup");
         }
       })
       .catch(console.error);
@@ -43,19 +45,19 @@ const actions = {
   logout({ commit }) {
     axios
       .post("/logout")
-      .then((res) => {
-        if (res.status === 200) {
-          commit("logOut");
-        }
-      })
+      .then((res) => commit("logout"))
       .catch(console.error);
   },
   login({ commit }, credentials) {
     axios
       .post("/login", credentials)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
-          commit("logIn", credentials);
+          commit("login", res.data.user);
+          router.push("/news");
+        } else {
+          throw new Error("Unable to login");
         }
       })
       .catch(console.error);
@@ -63,6 +65,7 @@ const actions = {
 };
 
 export default {
+  namespaced: true,
   state,
   mutations,
   actions,

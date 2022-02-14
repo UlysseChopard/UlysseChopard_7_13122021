@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       password: {
-        type: DataTypes.STRING.BINARY,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       salt: {
-        type: DataTypes.STRING.BINARY,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: {

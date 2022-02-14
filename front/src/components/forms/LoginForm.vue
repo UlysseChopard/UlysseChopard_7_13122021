@@ -9,27 +9,27 @@
           <v-card-title>
             <span class="text-h5">Connection</span>
           </v-card-title>
-          <v-row justify="center">
-            <v-col cols="10">
-              <v-text-field
-                label="Adresse mail"
-                v-model.lazy.trim="credentials.email"
-                suffix="@groupomania.com"
-                required
-              />
-            </v-col>
-            <v-col cols="10">
-              <v-text-field
-                label="Mot de passe"
-                v-model.trim.lazy="credentials.password"
-                type="password"
-                required
-              />
-            </v-col>
-            <v-col cols="10" md="5">
-              <small>Tous les champs sont requis.</small>
-            </v-col>
-          </v-row>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="10">
+            <v-text-field
+              label="Adresse mail"
+              v-model.lazy.trim="credentials.email"
+              suffix="@groupomania.com"
+              required
+            />
+          </v-col>
+          <v-col cols="10">
+            <v-text-field
+              label="Mot de passe"
+              v-model.trim.lazy="credentials.password"
+              type="password"
+              required
+            />
+          </v-col>
+          <v-col cols="10" md="5">
+            <small>Tous les champs sont requis.</small>
+          </v-col>
         </v-row>
       </v-container>
     </v-card-text>
@@ -41,7 +41,6 @@
               block
               color="green-darken-1"
               class="text-white"
-              to="/news"
               @click="login"
               >Se connecter</v-btn
             >
@@ -75,5 +74,8 @@ const credentials = reactive({
 
 const store = useStore();
 
-const login = () => store.dispatch("login", credentials);
+const login = () => {
+  console.log("login", credentials);
+  store.dispatch("auth/login", credentials);
+};
 </script>

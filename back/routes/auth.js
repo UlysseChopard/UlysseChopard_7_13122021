@@ -96,15 +96,13 @@ module.exports = (app) => {
             password: password.toString("hex"),
           });
           const user = await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
+            ...req.body,
             salt: salt.toString("hex"),
             password: password.toString("hex"),
           });
           req.login(user, (error) => {
             if (error) return next(error);
-            res.json({ message: "User created" });
+            res.json({ message: "User created", user });
           });
         } catch (e) {
           return next(e);

@@ -46,7 +46,7 @@ const server = app.listen(port, (err) => {
 });
 
 sequelize
-  .sync({ force: true })
+  .authenticate()
   .then(() => {
     console.log("Connected to database");
   })

@@ -37,7 +37,7 @@
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="10" md="5">
+          <v-col cols="10">
             <v-text-field
               label="Mot de passe"
               v-model="user.password"
@@ -47,7 +47,7 @@
           </v-col>
         </v-row>
         <v-row justify="center" v-if="$route.params.isModerator">
-          <v-col cols="10" md="5">
+          <v-col cols="10">
             <v-text-field
               label="Code modérateur"
               v-model="user.isModerator"
@@ -71,8 +71,7 @@
               block
               color="green-darken-1"
               class="text-white"
-              to="/news"
-              @click.prevent="signup"
+              @click="signup"
               >S'inscrire</v-btn
             >
           </v-col>
@@ -111,25 +110,9 @@ const user = reactive({
 });
 
 const store = useStore();
-const signup = () => {
-  console.log(user);
-  store.dispatch("signup", user);
-};
-</script>
 
-<script>
-export default {
-  name: "SignupForm",
-  props: {
-    isModerator: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  methods: {
-    registerUser() {
-      console.log("data");
-    },
-  },
+const signup = () => {
+  console.log("signup", user);
+  store.dispatch("auth/signup", user);
 };
 </script>

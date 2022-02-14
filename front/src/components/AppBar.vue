@@ -57,5 +57,5 @@ watch(route, (to) => {
 
 const store = useStore();
 
-const logout = () => store.dispatch("logout");
+const logout = () => store.dispatch("auth/logout");
 </script>
