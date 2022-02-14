@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
       },
       password: {
-        type: DataTypes.STRING.BINARY,
+        type: DataTypes.STRING(64),
         allowNull: false,
       },
       createdAt: {

@@ -2,10 +2,9 @@ const { Post } = require("../models");
 
 module.exports = (app) => {
   app.post("/posts", async (req, res) => {
-    const { userUuid, content, image } = req.body;
+    const { content, image } = req.body;
     try {
-      const user = await User.findOne({ where: { uuid: userUuid } });
-      const post = await Post.create({ content, image, userId: user.id });
+      const post = await Post.create({ content, image, userId: req.user.uuid });
       return res.json(post);
     } catch (e) {
       console.error(e);
@@ -15,7 +14,7 @@ module.exports = (app) => {
 
   app.get("/posts", async (req, res) => {
     try {
-      const posts = await Post.findAll({ include: "user" });
+      const posts = await Post.findAll();
       return res.json(posts);
     } catch (e) {
       console.error(e);

@@ -28,12 +28,21 @@ module.exports = (sequelize, DataTypes) => {
           isUUID: 4,
         },
       },
-      content: DataTypes.STRING,
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       image: {
         type: DataTypes.STRING,
+        allowNull: true,
         validate: {
           isURL: true,
         },
+      },
+      isHidden: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
       },
     },
     {

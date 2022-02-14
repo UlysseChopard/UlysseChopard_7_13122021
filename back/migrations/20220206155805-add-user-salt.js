@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn("users", "salt", {
-      type: Sequelize.STRING.BINARY,
+      type: Sequelize.STRING(32),
       alowNull: false,
     });
   },

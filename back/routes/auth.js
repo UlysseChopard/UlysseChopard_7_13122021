@@ -53,10 +53,13 @@ passport.serializeUser((user, cb) => {
   process.nextTick(() => cb(null, user.uuid));
 });
 
-passport.deserializeUser((userUuid, cb) => {
-  User.findOne({ where: { uuid: userUuid } })
-    .then((user) => cb(null, user))
-    .catch((e) => cb(e));
+passport.deserializeUser(async (uuid, cb) => {
+  try {
+    const user = await User.findOne({ where: { uuid } });
+    cb(null, user);
+  } catch (e) {
+    cb(e);
+  }
 });
 
 module.exports = (app) => {
@@ -74,8 +77,9 @@ module.exports = (app) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.post("/login", passport.authenticate("local"), (req, res) => {
-    res.json({ message: "User connected" });
+  app.post("/login", passport.authenticate("local"), async (req, res) => {
+    const user = await User.findOne({ where: { uuid: req.user } });
+    res.json({ message: "User connected", user });
   });
 
   app.post("/signup", (req, res, next) => {
@@ -91,7 +95,6 @@ module.exports = (app) => {
         try {
           console.log({
             ...req.body,
-            email: req.body.email,
             salt: salt.toString("hex"),
             password: password.toString("hex"),
           });

@@ -4,7 +4,7 @@
     <v-btn to="/">
       <img
         height="48"
-        width="300"
+        max-width="300"
         src="@/assets/logos/icon-left-font-monochrome-black.svg"
         alt="logo"
       />
