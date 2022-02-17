@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-img>
-      <v-img src="src/assets/logos/icon.svg" />
+      <v-img src="/icon.svg" />
     </v-card-img>
     <v-card-text>
       <v-container fluid fill-height>

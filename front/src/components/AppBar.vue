@@ -2,10 +2,10 @@
   <v-app-bar app>
     <v-spacer v-if="!displayAccountBtn" />
     <v-btn to="/">
-      <img
+      <v-img
         height="48"
         max-width="300"
-        src="@/assets/logos/icon-left-font-monochrome-black.svg"
+        src="/icon-left-font-monochrome-black.svg"
         alt="logo"
       />
     </v-btn>
