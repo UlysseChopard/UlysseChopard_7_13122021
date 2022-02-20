@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: "http://locahost:3000",
-  timeout: 10000,
-});
+axios.defaults.baseURL = "http://localhost:3000";
+exios.defaults.withCredentials = true;
 
-module.exports = instance;
+export default axios;
