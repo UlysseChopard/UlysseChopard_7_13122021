@@ -78,8 +78,7 @@ module.exports = (app) => {
   app.use(passport.session());
 
   app.post("/login", passport.authenticate("local"), async (req, res) => {
-    const user = await User.findOne({ where: { uuid: req.user } });
-    res.json({ message: "User connected", user });
+    res.json({ message: "User connected", user: req.user });
   });
 
   app.post("/signup", (req, res, next) => {

@@ -12,6 +12,7 @@ const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
+app.use(express.urlencoded());
 app.use(helmet());
 app.use(compression());
 app.use(cors());
@@ -46,7 +47,7 @@ const server = app.listen(port, (err) => {
 });
 
 sequelize
-  .sync({ force: true })
+  .sync({ alter: true })
   .then(() => {
     console.log("Connected to database");
   })
