@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-import Post from "@/components/Post.vue";
-import AddContent from "@/components/buttons/AddContent.vue";
+import Post from "@/components/posts/Post.vue";
+import AddContent from "@/components/posts/AddContent.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 

@@ -1,4 +1,6 @@
-export default (axios) => ({
+import axios from "./axios_instance.js";
+
+export default {
   signup(userInfo) {
     return axios.post("/signup", userInfo);
   },
@@ -8,4 +10,4 @@ export default (axios) => ({
   logout() {
     return axios.post("/logout");
   },
-});
+};

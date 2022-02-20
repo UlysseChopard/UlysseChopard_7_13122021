@@ -16,6 +16,7 @@
     </v-row>
   </v-footer>
 </template>
+
 <script setup>
 const links = [
   {

@@ -1,5 +1,5 @@
 import router from "@/router";
-import { postAPI } from "@/api";
+import { createPost, getPosts } from "@/api/post.js";
 
 const state = () => ({
   list: [],
@@ -22,7 +22,7 @@ const mutations = {
 const actions = {
   async createPost({ commit, dispatch }, content) {
     try {
-      const res = await postAPI.create(content);
+      const res = await createPost(content);
       commit("addPost", res.data);
       router.push("/news");
       dispatch("push_notif", {
@@ -35,7 +35,7 @@ const actions = {
   },
   async getPosts({ commit, dispatch }) {
     try {
-      const res = await postAPI.get();
+      const res = await getPosts();
       commit("addPost", res.data);
       dispatch("push_notif", { data: res.data });
     } catch (e) {

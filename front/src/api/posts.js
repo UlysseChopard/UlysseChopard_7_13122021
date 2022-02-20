@@ -1,8 +1,10 @@
-export default (axios) => ({
-  get() {
+import axios from "./axios_instance.js";
+
+export default {
+  getPosts() {
     return axios.get("/posts");
   },
-  create(post) {
+  createPost(post) {
     console.log(post);
     if (!post.content && !post.image) {
       throw new Error(
@@ -11,4 +13,4 @@ export default (axios) => ({
     }
     return axios.post("/posts");
   },
-});
+};

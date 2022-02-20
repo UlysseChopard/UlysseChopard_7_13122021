@@ -1,12 +1,9 @@
 <template>
   <v-card>
-    <v-card-text>
-      <Gif
-        v-for="(gif, idx) of gifs"
-        :key="idx"
-        :images="gif.images"
-        :title="gif.title"
-        size="fixed_height_downsampled"
+    <v-card-text v-for="(gif, idx) of gifs" :key="idx">
+      <v-img
+        :alt="gif.title"
+        :src="gif.images[GIF_SIZE].url"
         @click="addGifToPost(gif)"
       />
     </v-card-text>
@@ -16,7 +13,8 @@
 <script setup>
 import axios from "axios";
 import { onBeforeMount, ref } from "vue";
-import Gif from "@/components/Gif.vue";
+
+const GIF_SIZE = "fixed_height_downsampled";
 
 const gifs = ref([]);
 

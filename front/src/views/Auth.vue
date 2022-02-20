@@ -1,9 +1,9 @@
 <template>
-    <Form>
-        <router-view />
-    </Form>
+  <UserAuth>
+    <router-view />
+  </UserAuth>
 </template>
 
 <script setup>
-import Form from "@/components/forms/Form.vue"
+import UserAuth from "@/components/user/Auth.vue";
 </script>

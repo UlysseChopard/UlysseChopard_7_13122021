@@ -1,4 +1,4 @@
-import { userAPI } from "@/api";
+import { login, signup, logout } from "@/api/user.js";
 import router from "@/router";
 
 const state = () => ({

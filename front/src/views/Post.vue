@@ -26,11 +26,11 @@
     </v-row>
   </v-container>
 </template>
-
+../components/posts/GifDialog.vue
 <script setup>
 import { ref } from "vue";
 import { useStore } from "vuex";
-import GifDialog from "../components/GifDialog.vue";
+import GifDialog from "../components/posts/GifDialog.vue";
 
 const store = useStore();
 
