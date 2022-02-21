@@ -15,7 +15,7 @@ const mutations = {
     state.lastname = user.lastname;
     state.email = user.email;
     state.isAuth = true;
-    if (user.roles.includes("moderator")) {
+    if (user?.roles?.includes("moderator")) {
       state.isModerator = true;
     }
   },
@@ -30,35 +30,38 @@ const mutations = {
 
 const actions = {
   async signup({ commit, dispatch }, user) {
+    user.email += "@groupomania.com";
+    console.log("user", user);
     try {
       const res = await userAPI.signup(user);
-      if (res.status !== 201) {
+      if (res.status < 200 || res.status >= 300) {
         throw res.data;
       }
       commit("login", res.data.user);
+      router.push("/news");
       dispatch(
         "push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
-      router.push("/news");
     } catch (e) {
       dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async login({ commit, dispatch }, user) {
+    user.email += "@groupomania.com";
     try {
       const res = await userAPI.login(user);
-      if (res.status !== 200) {
+      if (res.status < 200 || res.status >= 300) {
         throw res.data;
       }
       commit("login", res.data.user);
+      router.push("/news");
       dispatch(
         "push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
-      router.push("/news");
     } catch (e) {
       dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
@@ -66,7 +69,7 @@ const actions = {
   async logout({ commit, dispatch }) {
     try {
       const res = await userAPI.logout();
-      if (res.status !== 204) {
+      if (res.status < 200 || res.status >= 300) {
         throw res.data;
       }
       commit("logout");

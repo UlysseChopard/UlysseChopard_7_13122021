@@ -50,7 +50,7 @@ const routes = [
   {
     path: "/post",
     name: "Post",
-    component: () => import("@/views/Post.vue"),
+    component: () => import("@/components/posts/Form.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -58,7 +58,6 @@ const routes = [
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/views/NotFound.vue"),
   },
 ];
 
@@ -67,16 +66,27 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach((to, from) => {
-//   console.log("state", store.state);
-//   const isAuth = store.state.user.isAuth;
+router.beforeEach((to, from) => {
+  const isAuth = store.state.user.isAuth;
 
-//   if (to.meta.requiresAuth && !isAuth) {
-//     return "/login";
-//   }
-//   if (to.meta.guest && isAuth) {
-//     return "/news";
-//   }
-// });
+  if (to.meta.requiresAuth && !isAuth) {
+    store.dispatch("push_notif", {
+      data: {
+        message: "This page requires authentication",
+      },
+      type: "warning",
+    });
+    return "/login";
+  }
+
+  if (to.name === "NotFound") {
+    store.dispatch("push_notif", {
+      data: {
+        message: `La page ${to.params.pathMatch} n'existe pas ou a été retirée. N'hésitez pas à contacter notre service client en cas de besoin.`,
+      },
+    });
+    return false;
+  }
+});
 
 export default router;

@@ -9,6 +9,9 @@
     <v-main>
       <v-container fluid>
         <router-view />
+        <!-- <pre>
+          {{ $store.state.notif }}
+        </pre> -->
       </v-container>
     </v-main>
     <Footer />

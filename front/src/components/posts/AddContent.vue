@@ -1,7 +1,5 @@
 <template>
-  <v-btn color="orange-darken-2" text-color="white" icon class="fab" to="/post"
-    >+</v-btn
-  >
+  <v-btn color="#fcd4d4" icon class="fab" to="/post">+</v-btn>
 </template>
 
 <style scoped>
