@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
-import auth from "./modules/auth.js";
-import post from "./modules/post.js";
+import user from "./modules/user.js";
+import posts from "./modules/posts.js";
 
 export default createStore({
   state() {
@@ -25,8 +25,13 @@ export default createStore({
       });
     },
   },
+  getters: {
+    lastNotif(state) {
+      return state.notif.pop();
+    },
+  },
   modules: {
-    auth,
-    post,
+    user,
+    posts,
   },
 });

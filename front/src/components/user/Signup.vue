@@ -113,6 +113,6 @@ const store = useStore();
 
 const signup = () => {
   console.log("signup", user);
-  store.dispatch("auth/signup", user);
+  store.dispatch("user/signup", user);
 };
 </script>

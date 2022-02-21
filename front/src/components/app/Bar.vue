@@ -1,61 +1,13 @@
 <template>
-  <v-app-bar app>
-    <v-spacer v-if="!displayAccountBtn" />
-    <v-btn to="/">
-      <v-img
-        height="48"
-        max-width="300"
-        src="/icon-left-font-monochrome-black.svg"
-        alt="logo"
-      />
-    </v-btn>
-    <v-spacer />
-    <v-menu
-      v-if="displayAccountBtn"
-      anchor="bottom end"
-      origin="auto"
-      transition-slide-y
-    >
-      <template #activator="{ props }">
-        <v-btn icon v-bind="props">
-          <v-icon :icon="mdiAccountCircle" />
-        </v-btn>
-      </template>
-      <v-container>
-        <v-row>
-          <v-card>
-            <v-col cols="12">
-              <v-btn to="/account" block flat>Mon compte</v-btn>
-            </v-col>
-            <v-col cols="12">
-              <v-btn to="/" @click="logout" block flat>Me déconnecter</v-btn>
-            </v-col>
-          </v-card>
-        </v-row>
-      </v-container>
-    </v-menu>
+  <v-app-bar app density="compact">
+    <v-app-bar-nav-icon @click="$emit('switchDrawer')" />
+    <v-img
+      max-height="36"
+      min-width="200"
+      src="/icon-left-font-monochrome-black.svg"
+      alt="logo"
+    />
   </v-app-bar>
 </template>
 
-<script setup>
-import { watch, ref } from "vue";
-import { useRoute } from "vue-router";
-import { mdiAccountCircle } from "@mdi/js";
-import { useStore } from "vuex";
-
-const displayAccountBtn = ref(false);
-
-const route = useRoute();
-
-watch(route, (to) => {
-  if (to.path === "/news") {
-    displayAccountBtn.value = true;
-    return;
-  }
-  displayAccountBtn.value = false;
-});
-
-const store = useStore();
-
-const logout = () => store.dispatch("auth/logout");
-</script>
+<script setup />

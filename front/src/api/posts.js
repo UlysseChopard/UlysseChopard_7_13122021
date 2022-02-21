@@ -1,10 +1,10 @@
 import axios from "./axios_instance.js";
 
 export default {
-  getPosts() {
+  get() {
     return axios.get("/posts");
   },
-  createPost(post) {
+  create(post) {
     console.log(post);
     if (!post.content && !post.image) {
       throw new Error(

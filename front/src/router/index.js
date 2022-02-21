@@ -11,12 +11,12 @@ const routes = [
   {
     path: "/auth",
     name: "Auth",
-    component: () => import("@/views/Auth.vue"),
+    component: () => import("@/views/User.vue"),
     children: [
       {
         path: "/login",
         name: "Login",
-        component: () => import("@/components/forms/LoginForm.vue"),
+        component: () => import("@/components/user/Login.vue"),
         meta: {
           guest: true,
         },
@@ -24,7 +24,7 @@ const routes = [
       {
         path: "/signup/:isModerator?",
         name: "Signup",
-        component: () => import("@/components/forms/SignupForm.vue"),
+        component: () => import("@/components/user/Signup.vue"),
         meta: {
           guest: true,
         },
@@ -32,7 +32,7 @@ const routes = [
       {
         path: "/account",
         name: "Account",
-        component: () => import("@/components/forms/AccountForm.vue"),
+        component: () => import("@/components/user/Account.vue"),
         meta: {
           requiresAuth: true,
         },
@@ -47,6 +47,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/post",
+    name: "Post",
+    component: () => import("@/views/Post.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -55,8 +63,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-  console.log("auth", store.state.auth);
-  const isAuth = store.state.auth.isAuth;
+  console.log("state", store.state);
+  const isAuth = store.state.user.isAuth;
 
   if (to.meta.requiresAuth && !isAuth) {
     return "/login";

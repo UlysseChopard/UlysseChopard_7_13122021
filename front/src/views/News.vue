@@ -21,4 +21,6 @@ import { computed } from "vue";
 const store = useStore();
 
 const posts = computed(() => store.state.posts);
+
+const getNewPosts = () => console.log("cliqué");
 </script>

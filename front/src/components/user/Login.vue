@@ -76,6 +76,6 @@ const store = useStore();
 
 const login = () => {
   console.log("login", credentials);
-  store.dispatch("auth/login", credentials);
+  store.dispatch("user/login", credentials);
 };
 </script>

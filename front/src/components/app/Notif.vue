@@ -3,16 +3,18 @@
     :model-value="displayAlert"
     fixed
     class="bottom-center"
-    :type="alert.type"
-    closable
-    >{{ alert.data.message }}</v-alert
+    :type="type"
+    >{{ message }}</v-alert
   >
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 
-defineProps(["alert"]);
+defineProps({
+  message: "",
+  type: "",
+});
 
 const displayAlert = ref(true);
 

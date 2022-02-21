@@ -1,5 +1,5 @@
 import router from "@/router";
-import { createPost, getPosts } from "@/api/post.js";
+import postsAPI from "@/api/posts.js";
 
 const state = () => ({
   list: [],
@@ -22,24 +22,28 @@ const mutations = {
 const actions = {
   async createPost({ commit, dispatch }, content) {
     try {
-      const res = await createPost(content);
+      const res = await postsAPI.create(content);
       commit("addPost", res.data);
       router.push("/news");
-      dispatch("push_notif", {
-        data: { message: "Post créé" },
-        type: "success",
-      });
+      dispatch(
+        "push_notif",
+        {
+          data: { message: "Post créé" },
+          type: "success",
+        },
+        { root: true }
+      );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" });
+      dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async getPosts({ commit, dispatch }) {
     try {
-      const res = await getPosts();
+      const res = await postsAPI.get();
       commit("addPost", res.data);
-      dispatch("push_notif", { data: res.data });
+      dispatch("push_notif", { data: res.data }, { root: true });
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" });
+      dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
   },
 };

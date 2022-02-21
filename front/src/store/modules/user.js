@@ -1,4 +1,4 @@
-import { login, signup, logout } from "@/api/user.js";
+import userAPI from "@/api/user.js";
 import router from "@/router";
 
 const state = () => ({
@@ -33,13 +33,21 @@ const actions = {
         : userAPI.login(userInfo));
       console.log(res);
       if (res.status !== 200) {
-        return dispatch("push_notif", { data: res.data, type: "warning" });
+        return dispatch(
+          "push_notif",
+          { data: res.data, type: "warning" },
+          { root: true }
+        );
       }
       commit("login", res.data.user);
       router.push("/news");
-      dispatch("push_notif", { data: res.data, type: "success" });
+      dispatch(
+        "push_notif",
+        { data: res.data, type: "success" },
+        { root: true }
+      );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" });
+      dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async logout({ commit, dispatch }) {
@@ -47,9 +55,9 @@ const actions = {
       const res = await userAPI.logout();
       commit("logout");
       router.push("/");
-      dispatch("push_notif", { data: res.data, type: "info" });
+      dispatch("push_notif", { data: res.data, type: "info" }, { root: true });
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" });
+      dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
   },
 };
