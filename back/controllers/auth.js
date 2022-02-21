@@ -33,7 +33,7 @@ exports.signup = async (req, res, next) => {
         });
         req.login(user, (error) => {
           if (error) return next(error);
-          res.json({ message: "User created", user });
+          res.status(201).json({ message: "User created", user });
         });
       } catch (e) {
         return next(e);

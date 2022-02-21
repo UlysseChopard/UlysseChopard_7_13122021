@@ -10,16 +10,8 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-const whitelist = ["http://localhost:8080", "http://localhost"];
-
 const corsOptions = {
-  origin: (origin, done) => {
-    if (whitelist.includes(origin) || !origin) {
-      done(null, true);
-    } else {
-      done(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "http://localhost",
   credentials: true,
 };
 
@@ -35,7 +27,7 @@ app.options("*", cors(corsOptions));
 // Session, avant toutes les routes et surtout l'authentification
 session(app, sequelize);
 
-app.use("/images", express.static("./images"));
+app.use("/upload", express.static("./upload"));
 
 require(__dirname + "/routes")(app, express);
 

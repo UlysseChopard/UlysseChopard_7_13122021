@@ -16,7 +16,7 @@ exports.remove = async (req, res) => {
   try {
     const post = await Post.findOne({ where: { uuid } });
     if (post.image) {
-      unlink(`/app/images/${post.image}`, (err) => {
+      unlink(`/upload/${post.image}`, (err) => {
         if (err) throw err;
         console.log(`image ${post.image} deleted`);
       });
@@ -31,11 +31,16 @@ exports.remove = async (req, res) => {
 
 exports.create = async (req, res) => {
   const { content } = req.body;
+  console.log("body", req.body);
   const image = req.file
-    ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
     : null;
   try {
-    const post = await Post.create({ content, image, userId: req.user.uuid });
+    const post = await Post.create({
+      content,
+      image,
+      userId: req.user.id,
+    });
     return res.status(201).json(post);
   } catch (e) {
     console.error(e);
