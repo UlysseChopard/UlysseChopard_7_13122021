@@ -11,7 +11,7 @@
         >{{ link.title }}</v-btn
       >
       <v-col class="text-center text-white mt-4" cols="12">
-        {{ new Date().getFullYear() }} - <strong>OpenClassrooms</strong>
+        {{ new Date().getFullYear() }} - <strong>Groupomania</strong>
       </v-col>
     </v-row>
   </v-footer>

@@ -1,4 +1,4 @@
-import axios from "./axios_instance.js";
+import axios from "./back.js";
 
 export default {
   signup(userInfo) {

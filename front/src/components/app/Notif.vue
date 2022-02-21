@@ -25,9 +25,9 @@ onMounted(() => {
 
 <style>
 .bottom-center {
-  bottom: 48px;
+  bottom: 100px;
   left: 5%;
   right: 5%;
-  z-index: 1;
+  z-index: 10;
 }
 </style>

@@ -27,11 +27,10 @@ const actions = {
       router.push("/news");
       dispatch(
         "push_notif",
+        { data: { message: "Post créé" }, type: "success" },
         {
-          data: { message: "Post créé" },
-          type: "success",
-        },
-        { root: true }
+          root: true,
+        }
       );
     } catch (e) {
       dispatch("push_notif", { data: e, type: "error" }, { root: true });

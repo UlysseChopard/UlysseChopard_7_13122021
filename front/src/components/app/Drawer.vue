@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer">
+  <v-navigation-drawer v-model="drawer" temporary>
     <v-list>
       <v-list-item @click="logout">Déconnexion</v-list-item>
       <v-list-item to="/account">Mon compte</v-list-item>

@@ -1,17 +1,22 @@
 <template>
-  <v-card>
-    <v-card-text v-for="(gif, idx) of gifs" :key="idx">
-      <v-img
-        :alt="gif.title"
-        :src="gif.images[GIF_SIZE].url"
-        @click="addGifToPost(gif)"
-      />
-    </v-card-text>
-  </v-card>
+  <v-container fluid>
+    <v-card>
+      <v-card-text style="height: 300px">
+        <v-row v-for="(gif, idx) of gifs">
+          <v-img
+            :key="idx"
+            :alt="gif.title"
+            :src="gif.images[GIF_SIZE].url"
+            @click="addGifToPost(gif)"
+          />
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
-import axios from "axios";
+import giphy from "@/external/giphy.js";
 import { onBeforeMount, ref } from "vue";
 
 const GIF_SIZE = "fixed_height_downsampled";
@@ -21,9 +26,7 @@ const gifs = ref([]);
 onBeforeMount(async () => {
   const {
     data: { data: gifsArray },
-  } = await axios.get(
-    "https://api.giphy.com/v1/gifs/search?api_key=yFyMQEAHnCgHpFvcVhU3zKjqVALaj2Ox&q=test&limit=3&offset=0&rating=g&lang=fr"
-  );
+  } = await giphy.getTrendingGIFs();
   gifs.value = gifsArray;
 });
 

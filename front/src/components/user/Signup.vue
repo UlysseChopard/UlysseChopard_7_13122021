@@ -94,6 +94,7 @@
 <script setup>
 import { reactive } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 defineProps({
   isModerator: {
@@ -110,9 +111,7 @@ const user = reactive({
 });
 
 const store = useStore();
+const router = useRouter();
 
-const signup = () => {
-  console.log("signup", user);
-  store.dispatch("user/signup", user);
-};
+const signup = () => store.dispatch("user/signup", user);
 </script>

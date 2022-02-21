@@ -15,6 +15,9 @@ const mutations = {
     state.lastname = user.lastname;
     state.email = user.email;
     state.isAuth = true;
+    if (user.roles.includes("moderator")) {
+      state.isModerator = true;
+    }
   },
   logout(state) {
     state.firstname = "";
@@ -26,26 +29,36 @@ const mutations = {
 };
 
 const actions = {
-  async login({ commit, dispatch }, userInfo) {
+  async signup({ commit, dispatch }, user) {
     try {
-      const res = await (userInfo.firstname && userInfo.lastname
-        ? userAPI.signup(userInfo)
-        : userAPI.login(userInfo));
-      console.log(res);
-      if (res.status !== 200) {
-        return dispatch(
-          "push_notif",
-          { data: res.data, type: "warning" },
-          { root: true }
-        );
+      const res = await userAPI.signup(user);
+      if (res.status !== 201) {
+        throw res.data;
       }
       commit("login", res.data.user);
-      router.push("/news");
       dispatch(
         "push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
+      router.push("/news");
+    } catch (e) {
+      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
+  async login({ commit, dispatch }, user) {
+    try {
+      const res = await userAPI.login(user);
+      if (res.status !== 200) {
+        throw res.data;
+      }
+      commit("login", res.data.user);
+      dispatch(
+        "push_notif",
+        { data: res.data, type: "success" },
+        { root: true }
+      );
+      router.push("/news");
     } catch (e) {
       dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }
@@ -53,9 +66,16 @@ const actions = {
   async logout({ commit, dispatch }) {
     try {
       const res = await userAPI.logout();
+      if (res.status !== 204) {
+        throw res.data;
+      }
       commit("logout");
       router.push("/");
-      dispatch("push_notif", { data: res.data, type: "info" }, { root: true });
+      dispatch(
+        "push_notif",
+        { data: res.data, type: "success" },
+        { root: true }
+      );
     } catch (e) {
       dispatch("push_notif", { data: e, type: "error" }, { root: true });
     }

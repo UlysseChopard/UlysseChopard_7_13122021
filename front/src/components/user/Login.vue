@@ -74,8 +74,5 @@ const credentials = reactive({
 
 const store = useStore();
 
-const login = () => {
-  console.log("login", credentials);
-  store.dispatch("user/login", credentials);
-};
+const login = () => store.dispatch("user/login", credentials);
 </script>

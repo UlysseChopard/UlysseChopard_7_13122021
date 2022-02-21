@@ -55,6 +55,11 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("@/views/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -62,16 +67,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from) => {
-  console.log("state", store.state);
-  const isAuth = store.state.user.isAuth;
+// router.beforeEach((to, from) => {
+//   console.log("state", store.state);
+//   const isAuth = store.state.user.isAuth;
 
-  if (to.meta.requiresAuth && !isAuth) {
-    return "/login";
-  }
-  if (to.meta.guest && isAuth) {
-    return "/news";
-  }
-});
+//   if (to.meta.requiresAuth && !isAuth) {
+//     return "/login";
+//   }
+//   if (to.meta.guest && isAuth) {
+//     return "/news";
+//   }
+// });
 
 export default router;
