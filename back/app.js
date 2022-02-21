@@ -5,23 +5,39 @@ const compression = require("compression");
 const cors = require("cors");
 
 const { sequelize } = require("./models");
-const { isAuthenticated } = require("./middlewares/auth");
+const session = require("./session");
 const port = process.env.PORT || 3000;
 
 const app = express();
+
+const whitelist = ["http://localhost:8080", "http://localhost"];
+
+const corsOptions = {
+  origin: (origin, done) => {
+    if (whitelist.includes(origin) || !origin) {
+      done(null, true);
+    } else {
+      done(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(helmet());
 app.use(compression());
-app.use(cors());
 
-require(__dirname + "/routes")(app);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
-app.all("/test", isAuthenticated, (req, res) => {
-  res.json({ user: req.user });
-});
+// Session, avant toutes les routes et surtout l'authentification
+session(app, sequelize);
+
+app.use("/images", express.static("./images"));
+
+require(__dirname + "/routes")(app, express);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -1,15 +1,16 @@
 const { readdirSync } = require("fs");
 const path = require("path");
 
-module.exports = (app) => {
+const loadRouters = (app, express) => {
   try {
     const routes = readdirSync(__dirname);
-    routes.forEach((route) => {
-      if (route !== "index.js") {
-        require(path.join(__dirname, route))(app);
-      }
+    routes.map((file) => {
+      if (file === "index.js") return;
+      app.use(require(path.join(__dirname, file))(express));
     });
   } catch (e) {
     console.error(e);
   }
 };
+
+module.exports = loadRouters;

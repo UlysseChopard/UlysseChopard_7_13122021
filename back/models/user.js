@@ -98,11 +98,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       tableName: "users",
       modelName: "User",
-      hooks: {
-        beforeValidate: (user, options) => {
-          user.email += "@groupomania.com";
-        },
-      },
     }
   );
   return User;
