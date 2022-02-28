@@ -5,7 +5,6 @@
         <Post v-for="(post, idx) of posts" :key="idx" :post="post" />
       </v-row>
     </v-container>
-    {{ $store.state.posts.list }}
     <AddContent />
   </v-container>
 </template>
@@ -14,9 +13,11 @@
 import Post from "@/components/posts/Post.vue";
 import AddContent from "@/components/posts/AddContent.vue";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onBeforeMount } from "vue";
 
 const store = useStore();
 
 const posts = computed(() => store.state.posts.list);
+
+onBeforeMount(() => store.dispatch("posts/get"));
 </script>

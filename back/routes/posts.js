@@ -1,8 +1,8 @@
 const multer = require("../middlewares/multer");
 const {
   isAuthenticated,
-  isOwner,
   allowImages,
+  isModerator,
 } = require("../middlewares/auth");
 const controller = require("../controllers/posts");
 
@@ -11,11 +11,13 @@ module.exports = (express, app) => {
 
   router.get("/", isAuthenticated, controller.getAll);
 
-  router.delete("/:uuid", isOwner, controller.remove);
+  router.delete("/:id", controller.remove);
 
   router.post("/", isAuthenticated, multer, controller.create);
 
-  router.put("/:uuid", isOwner, multer, controller.modify);
+  router.put("/:id", multer, controller.modify);
+
+  router.put("/moderator/:id", isModerator, controller.moderate);
 
   app.use("/upload", allowImages, express.static("./upload"));
 

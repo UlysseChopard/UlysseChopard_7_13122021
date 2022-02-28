@@ -15,7 +15,7 @@ const mutations = {
     state.lastname = user.lastname;
     state.email = user.email;
     state.isAuth = true;
-    if (user?.roles?.includes("moderator")) {
+    if (user?.role?.includes("moderator")) {
       state.isModerator = true;
     }
   },
@@ -54,6 +54,7 @@ const actions = {
       if (res.status < 200 || res.status >= 300) {
         throw res.data;
       }
+      console.log(res);
       commit("login", res.data.user);
       router.push("/news");
       dispatch(

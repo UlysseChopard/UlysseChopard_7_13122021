@@ -9,6 +9,8 @@
     <v-main>
       <v-container fluid>
         <router-view />
+        {{ $store.state.user }}
+        {{ $store.state.posts }}
       </v-container>
     </v-main>
     <Footer />

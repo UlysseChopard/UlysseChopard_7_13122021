@@ -68,10 +68,9 @@ const isGifSelection = ref(false);
 const createPost = () => {
   const formData = new FormData();
   formData.append("content", content.value);
-  console.log(file.value);
   if (file.value.length > 0) {
     formData.append("upload", file.value[0]);
   }
-  store.dispatch("posts/createPost", formData);
+  store.dispatch("posts/create", formData);
 };
 </script>

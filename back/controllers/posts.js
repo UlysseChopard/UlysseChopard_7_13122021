@@ -3,7 +3,10 @@ const { unlink } = require("fs");
 
 exports.getAll = async (req, res) => {
   try {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({
+      where: { isHidden: false },
+      include: "user",
+    });
     return res.json(posts);
   } catch (e) {
     console.error(e);
@@ -12,9 +15,9 @@ exports.getAll = async (req, res) => {
 };
 
 exports.remove = async (req, res) => {
-  const uuid = req.params.uuid;
+  const id = req.params.id;
   try {
-    const post = await Post.findOne({ where: { uuid } });
+    const post = await Post.findOne({ where: { id } });
     if (post.image) {
       unlink(`/upload/${post.image}`, (err) => {
         if (err) throw err;
@@ -26,6 +29,22 @@ exports.remove = async (req, res) => {
   } catch (e) {
     console.error(e);
     return res.status(500).json(e);
+  }
+};
+
+exports.moderate = async (req, res) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.id } });
+    if (post.userId !== req.user.id) {
+      console.log("user", req.user.id);
+      console.log("post", post.userId);
+      res.status(401).json({ message: "Requires ownership" });
+    }
+    post.isHidden = true;
+    await post.save();
+    res.status(200).json({ message: `Post ${post.id} moderated` });
+  } catch (e) {
+    res.status(500).json(e);
   }
 };
 
@@ -42,7 +61,11 @@ exports.create = async (req, res) => {
       image,
       userId: req.user.id,
     });
-    return res.status(201).json(post);
+    const postAndUser = {
+      ...post,
+      user: req.user,
+    };
+    return res.status(201).json(postAndUser);
   } catch (e) {
     console.error(e);
     return res.status(500).json(e);
@@ -51,7 +74,7 @@ exports.create = async (req, res) => {
 
 exports.modify = async (req, res) => {
   try {
-    let post = await Post.findOne({ where: { uuid: req.user.uuid } });
+    let post = await Post.findOne({ where: { id: req.params.id } });
     // const modifiedPost = req.file ? {
     //   ...req.body,
     //   image:
