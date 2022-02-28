@@ -1,6 +1,6 @@
 module.exports = async (sequelize) => {
   try {
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
     console.log("Connected to database");
   } catch (e) {
     console.error(e);

@@ -12,22 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(User, { as: "user", foreignKey: "userId" });
     }
     toJSON() {
-      return { ...this.get(), id: undefined, userId: undefined };
+      return { ...this.get(), userId: undefined };
     }
   }
   Post.init(
     {
-      uuid: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        unique: true,
-        validate: {
-          notNull: true,
-          notEmpty: true,
-          isUUID: 4,
-        },
-      },
       content: {
         type: DataTypes.TEXT,
         allowNull: true,
@@ -35,9 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       image: {
         type: DataTypes.STRING,
         allowNull: true,
-        validate: {
-          isURL: true,
-        },
+        // validate: {
+        //   isURL: {
+        //     args: { require_host: false },
+        //   },
+        // },
       },
       isHidden: {
         type: DataTypes.BOOLEAN,

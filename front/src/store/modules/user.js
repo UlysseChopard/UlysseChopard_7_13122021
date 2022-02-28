@@ -15,7 +15,9 @@ const mutations = {
     state.lastname = user.lastname;
     state.email = user.email;
     state.isAuth = true;
-    state.role = user.role;
+    if (user?.role?.includes("moderator")) {
+      state.isModerator = true;
+    }
   },
   logout(state) {
     state.firstname = "";
@@ -29,7 +31,6 @@ const mutations = {
 const actions = {
   async signup({ commit, dispatch }, user) {
     user.email += "@groupomania.com";
-    console.log("user", user);
     try {
       const res = await userAPI.signup(user);
       if (res.status < 200 || res.status >= 300) {
@@ -53,6 +54,7 @@ const actions = {
       if (res.status < 200 || res.status >= 300) {
         throw res.data;
       }
+      console.log(res);
       commit("login", res.data.user);
       router.push("/news");
       dispatch(

@@ -22,7 +22,7 @@ module.exports = (sequelize, app) => {
     })
   );
 
-  // myStore.sync();
+  myStore.sync();
 
   app.use(passport.initialize());
 

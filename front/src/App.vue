@@ -9,19 +9,17 @@
     <v-main>
       <v-container fluid>
         <router-view />
-        <!-- <pre>
-          {{ $store.state.notif }}
-        </pre> -->
+        {{ $store.state.user }}
+        {{ $store.state.posts }}
       </v-container>
     </v-main>
     <Footer />
     <Notif
-      v-for="notif of $store.state.notif"
+      v-for="notif of $store.state.notif.list"
       :key="notif.timestamp"
       :message="notif.data.message"
       :type="notif.type"
     />
-    <!-- {{ $store.state.notif }} -->
   </v-app>
 </template>
 

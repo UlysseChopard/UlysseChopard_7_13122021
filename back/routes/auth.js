@@ -2,7 +2,7 @@ const passport = require("passport");
 const { Strategy } = require("passport-local");
 
 const controller = require("../controllers/auth");
-const { checkRolesForSignup } = require("../middlewares/auth");
+const { checkRoles } = require("../middlewares/auth");
 
 module.exports = (express, app) => {
   passport.use(
@@ -15,7 +15,7 @@ module.exports = (express, app) => {
   );
   app.post("/login", passport.authenticate("local"), controller.login);
 
-  app.post("/signup", controller.signup);
+  app.post("/signup", checkRoles, controller.signup);
 
   app.post("/logout", controller.logout);
 };

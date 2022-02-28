@@ -23,7 +23,7 @@ const actions = {
 
 const getters = {
   lastNotif(state) {
-    return state.state.pop();
+    return state.list.pop();
   },
 };
 

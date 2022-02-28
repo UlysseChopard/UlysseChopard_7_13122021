@@ -4,16 +4,19 @@ const db = require("./db");
 const session = require("./session");
 const routes = require("./routes");
 const appMiddlewares = require("./middlewares/app");
+const cors = require("./middlewares/cors");
 
 const { sequelize } = require("./models");
 
 const app = express();
 
-session(sequelize, app);
-
 appMiddlewares(express, app);
 
-// Session, avant toutes les routes et surtout l'authentification
+// Session avant CORS et routes
+session(sequelize, app);
+
+cors(app);
+
 routes(express, app);
 
 // catch 404 and forward to error handler

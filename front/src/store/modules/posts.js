@@ -6,24 +6,30 @@ const state = () => ({
 });
 
 const mutations = {
-  addPost(state, post) {
+  add(state, post) {
     if (Array.isArray(post)) {
       return state.list.push(...post);
     }
     state.list.push(post);
   },
-  modifyPost(state, newPost) {
+  update(state, posts) {
+    state.list = posts;
+  },
+  modify(state, newPost) {
     const prevPostIdx = state.list.findIndex((post) => post.id === newPost.id);
     const mergedPosts = { ...state.list[prevPostIdx], ...newPost };
     state.list[prevPostIdx] = mergedPosts;
   },
+  remove(state, id) {
+    state.list = state.list.filter((post) => post.id !== id);
+  },
 };
 
 const actions = {
-  async createPost({ commit, dispatch }, formData) {
+  async create({ commit, dispatch }, formData) {
     try {
       const res = await postsAPI.create(formData);
-      commit("addPost", res.data);
+      // commit("add", res.data);
       router.push("/news");
       dispatch(
         "notif/push_notif",
@@ -36,10 +42,18 @@ const actions = {
       dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
-  async getPosts({ commit, dispatch }) {
+  async get({ commit, dispatch }) {
     try {
       const res = await postsAPI.get();
-      commit("addPost", res.data);
+      commit("update", res.data);
+    } catch (e) {
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
+  async moderate({ commit, dispatch }, id) {
+    try {
+      const res = await postsAPI.moderate(id);
+      commit("remove", id);
       dispatch("notif/push_notif", { data: res.data }, { root: true });
     } catch (e) {
       dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
