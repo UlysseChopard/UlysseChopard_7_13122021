@@ -9,11 +9,9 @@ exports.signup = async (req, res, next) => {
   const emailAlreadyExists = await User.findOne({
     where: { email: req.body.email },
   });
-  console.log("email", emailAlreadyExists);
-  console.log("reqEmail", req.body.email);
   if (emailAlreadyExists) {
     return res.status(400).json({
-      message: "An account has already been created with this email adress",
+      message: "An account has already been created with this email address",
     });
   }
   const salt = crypto.randomBytes(16);
@@ -55,7 +53,6 @@ exports.authenticate = async (email, password, cb) => {
     if (!user) {
       return cb(null, false, { message: "Incorrect email or password" });
     }
-    console.log("user", user);
     crypto.pbkdf2(
       password,
       Buffer.from(user.salt, "hex"),

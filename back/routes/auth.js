@@ -1,25 +1,21 @@
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const { Strategy } = require("passport-local");
 
 const controller = require("../controllers/auth");
+const { checkRolesForSignup } = require("../middlewares/auth");
 
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email",
-    },
-    controller.authenticate
-  )
-);
+module.exports = (express, app) => {
+  passport.use(
+    new Strategy(
+      {
+        usernameField: "email",
+      },
+      controller.authenticate
+    )
+  );
+  app.post("/login", passport.authenticate("local"), controller.login);
 
-module.exports = (express) => {
-  const router = express.Router();
+  app.post("/signup", controller.signup);
 
-  router.post("/login", passport.authenticate("local"), controller.login);
-
-  router.post("/signup", controller.signup);
-
-  router.post("/logout", controller.logout);
-
-  return router;
+  app.post("/logout", controller.logout);
 };

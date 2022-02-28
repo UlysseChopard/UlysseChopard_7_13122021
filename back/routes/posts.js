@@ -2,18 +2,18 @@ const multer = require("../middlewares/multer");
 const { isAuthenticated, isOwner } = require("../middlewares/auth");
 const controller = require("../controllers/posts");
 
-module.exports = (express) => {
+module.exports = (express, app) => {
   const router = express.Router();
 
-  router.use(isAuthenticated);
+  router.get("/", isAuthenticated, controller.getAll);
 
-  router.get("/posts", controller.getAll);
+  router.delete("/:uuid", isOwner, controller.remove);
 
-  router.delete("/posts/:uuid", isOwner, controller.remove);
+  router.post("/", isAuthenticated, multer, controller.create);
 
-  router.post("/posts", multer, controller.create);
+  router.put("/:uuid", isOwner, multer, controller.modify);
 
-  router.put("/posts/:uuid", isOwner, multer, controller.modify);
+  app.use("/upload", express.static("./upload"));
 
-  return router;
+  app.use("/posts", router);
 };

@@ -1,10 +1,12 @@
 const { User } = require("../models");
 
-exports.serialize = (user, cb) => {
-  process.nextTick(() => cb(null, user.uuid));
+exports.serialize = ({ uuid }, cb) => {
+  console.log("SERIALIZE !!!");
+  process.nextTick(() => cb(null, uuid));
 };
 
 exports.deserialize = async (uuid, cb) => {
+  console.log("DESERIALIZE !!!");
   try {
     const user = await User.findOne({ where: { uuid } });
     cb(null, user);
