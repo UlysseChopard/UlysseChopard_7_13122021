@@ -12,11 +12,11 @@ const app = express();
 
 appMiddlewares(express, app);
 
+// Session avant CORS et routes
 session(sequelize, app);
 
 cors(app);
 
-// Session, avant toutes les routes et surtout l'authentification
 routes(express, app);
 
 // catch 404 and forward to error handler
