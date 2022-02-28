@@ -50,7 +50,7 @@
           <v-col cols="10">
             <v-text-field
               label="Code modérateur"
-              v-model="user.isModerator"
+              v-model="user.moderatorCode"
               type="password"
               required
             />
@@ -107,6 +107,7 @@ const user = reactive({
   firstname: "",
   lastname: "",
   password: "",
+  moderatorCode: "",
 });
 
 const store = useStore();

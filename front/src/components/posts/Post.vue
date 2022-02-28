@@ -12,8 +12,11 @@
           <v-card-title>{{ post.title }}</v-card-title>
           <v-card-subtitle>Publié le {{ post.pubDate }}</v-card-subtitle>
           <v-card-text>{{ post.content }}</v-card-text>
+          <v-card-actions v-if="$store.state.user.isModerator">
+            <v-btn flat>Modérer ce post</v-btn>
+          </v-card-actions>
         </v-card>
-        <v-img :src="post.image" />
+        <v-img v-if="post?.image" :src="post.image" />
       </v-col>
     </v-row>
   </v-container>

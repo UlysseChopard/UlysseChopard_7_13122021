@@ -26,23 +26,23 @@ const actions = {
       commit("addPost", res.data);
       router.push("/news");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: { message: "Post créé" }, type: "success" },
         {
           root: true,
         }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async getPosts({ commit, dispatch }) {
     try {
       const res = await postsAPI.get();
       commit("addPost", res.data);
-      dispatch("push_notif", { data: res.data }, { root: true });
+      dispatch("notif/push_notif", { data: res.data }, { root: true });
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
 };

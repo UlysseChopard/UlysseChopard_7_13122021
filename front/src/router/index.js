@@ -70,7 +70,7 @@ router.beforeEach((to, from) => {
   const isAuth = store.state.user.isAuth;
 
   if (to.meta.requiresAuth && !isAuth) {
-    store.dispatch("push_notif", {
+    store.dispatch("notif/push_notif", {
       data: {
         message: "This page requires authentication",
       },
@@ -80,7 +80,7 @@ router.beforeEach((to, from) => {
   }
 
   if (to.name === "NotFound") {
-    store.dispatch("push_notif", {
+    store.dispatch("notif/push_notif", {
       data: {
         message: `La page ${to.params.pathMatch} n'existe pas ou a été retirée. N'hésitez pas à contacter notre service client en cas de besoin.`,
       },

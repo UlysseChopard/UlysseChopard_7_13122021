@@ -31,7 +31,6 @@ const mutations = {
 const actions = {
   async signup({ commit, dispatch }, user) {
     user.email += "@groupomania.com";
-    console.log("user", user);
     try {
       const res = await userAPI.signup(user);
       if (res.status < 200 || res.status >= 300) {
@@ -40,12 +39,12 @@ const actions = {
       commit("login", res.data.user);
       router.push("/news");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async login({ commit, dispatch }, user) {
@@ -58,12 +57,12 @@ const actions = {
       commit("login", res.data.user);
       router.push("/news");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async logout({ commit, dispatch }) {
@@ -75,12 +74,12 @@ const actions = {
       commit("logout");
       router.push("/");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
 };
