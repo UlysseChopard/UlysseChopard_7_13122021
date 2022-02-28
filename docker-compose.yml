@@ -9,10 +9,12 @@ services:
      DB_PASS_FILE: /run/secrets/db_pass
      DB_NAME_FILE: /run/secrets/db_name
      DB_HOST: database
+     MODERATOR_PASS_FILE: /run/secrets/moderator_pass
     secrets:
      - db_usr
      - db_pass
      - db_name 
+     - moderator_pass
     volumes:
      - ./back:/app
     ports:
@@ -71,3 +73,5 @@ secrets:
   
   db_name:
    file: ./secrets/db_name
+  moderator_pass:
+   file: ./secrets/moderator_pass
