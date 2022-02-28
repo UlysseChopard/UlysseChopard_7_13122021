@@ -6,7 +6,7 @@ const state = () => ({
   lastname: "",
   email: "",
   isAuth: false,
-  isModerator: false,
+  role: "",
 });
 
 const mutations = {
@@ -15,9 +15,7 @@ const mutations = {
     state.lastname = user.lastname;
     state.email = user.email;
     state.isAuth = true;
-    if (user?.roles?.includes("moderator")) {
-      state.isModerator = true;
-    }
+    state.role = user.role;
   },
   logout(state) {
     state.firstname = "";
@@ -40,12 +38,12 @@ const actions = {
       commit("login", res.data.user);
       router.push("/news");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async login({ commit, dispatch }, user) {
@@ -58,12 +56,12 @@ const actions = {
       commit("login", res.data.user);
       router.push("/news");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
   async logout({ commit, dispatch }) {
@@ -75,12 +73,12 @@ const actions = {
       commit("logout");
       router.push("/");
       dispatch(
-        "push_notif",
+        "notif/push_notif",
         { data: res.data, type: "success" },
         { root: true }
       );
     } catch (e) {
-      dispatch("push_notif", { data: e, type: "error" }, { root: true });
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
 };
