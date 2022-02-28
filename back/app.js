@@ -4,14 +4,17 @@ const db = require("./db");
 const session = require("./session");
 const routes = require("./routes");
 const appMiddlewares = require("./middlewares/app");
+const cors = require("./middlewares/cors");
 
 const { sequelize } = require("./models");
 
 const app = express();
 
+appMiddlewares(express, app);
+
 session(sequelize, app);
 
-appMiddlewares(express, app);
+cors(app);
 
 // Session, avant toutes les routes et surtout l'authentification
 routes(express, app);

@@ -32,6 +32,7 @@ exports.remove = async (req, res) => {
 exports.create = async (req, res) => {
   const { content } = req.body;
   console.log("body", req.body);
+  console.log("file", req.file);
   const image = req.file
     ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
     : null;
