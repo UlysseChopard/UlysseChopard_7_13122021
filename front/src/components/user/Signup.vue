@@ -46,11 +46,14 @@
             />
           </v-col>
         </v-row>
-        <v-row justify="center" v-if="$route.params.isModerator">
+        <v-row
+          justify="center"
+          v-if="$route.params.isModerator === 'moderator'"
+        >
           <v-col cols="10">
             <v-text-field
               label="Code modérateur"
-              v-model="user.isModerator"
+              v-model="user.moderator"
               type="password"
               required
             />
@@ -95,18 +98,12 @@
 import { reactive } from "vue";
 import { useStore } from "vuex";
 
-defineProps({
-  isModerator: {
-    type: Boolean,
-    default: false,
-  },
-});
-
 const user = reactive({
   email: "",
   firstname: "",
   lastname: "",
   password: "",
+  moderator: "",
 });
 
 const store = useStore();
