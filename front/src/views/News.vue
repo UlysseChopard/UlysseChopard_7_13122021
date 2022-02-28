@@ -4,10 +4,8 @@
       <v-row justify="center">
         <Post v-for="(post, idx) of posts" :key="idx" :post="post" />
       </v-row>
-      <v-row justify="center">
-        <v-btn variant="text" @click="getNewPosts">See more</v-btn>
-      </v-row>
     </v-container>
+    {{ $store.state.posts.list }}
     <AddContent />
   </v-container>
 </template>
@@ -20,7 +18,5 @@ import { computed } from "vue";
 
 const store = useStore();
 
-const posts = computed(() => store.state.posts);
-
-const getNewPosts = () => console.log("cliqué");
+const posts = computed(() => store.state.posts.list);
 </script>

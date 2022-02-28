@@ -9,9 +9,6 @@
     <v-main>
       <v-container fluid>
         <router-view />
-        <!-- <pre>
-          {{ $store.state.notif }}
-        </pre> -->
       </v-container>
     </v-main>
     <Footer />
@@ -21,7 +18,6 @@
       :message="notif.data.message"
       :type="notif.type"
     />
-    <!-- {{ $store.state.notif }} -->
   </v-app>
 </template>
 

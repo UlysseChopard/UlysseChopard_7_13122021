@@ -22,7 +22,7 @@ exports.isAdmin = (req, res, next) => {
 };
 
 exports.isOwner = (req, res, next) => {
-  if (req.user.id === req.params.uuid) {
+  if (req.user.uuid === req.params.uuid) {
     return next();
   }
   res.status(401).json({ message: "Requires ownership" });
@@ -39,5 +39,10 @@ exports.checksRolesForSignup = (req, res, next) => {
     return res.status(401).json({ message: "Invalid moderator code" });
   }
   delete req.body.moderator;
+  next();
+};
+
+exports.allowImages = (req, res, next) => {
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-site");
   next();
 };

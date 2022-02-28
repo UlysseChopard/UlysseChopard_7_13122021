@@ -35,9 +35,11 @@ module.exports = (sequelize, DataTypes) => {
       image: {
         type: DataTypes.STRING,
         allowNull: true,
-        validate: {
-          isURL: true,
-        },
+        // validate: {
+        //   isURL: {
+        //     args: { require_host: false },
+        //   },
+        // },
       },
       isHidden: {
         type: DataTypes.BOOLEAN,

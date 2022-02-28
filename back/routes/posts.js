@@ -1,5 +1,9 @@
 const multer = require("../middlewares/multer");
-const { isAuthenticated, isOwner } = require("../middlewares/auth");
+const {
+  isAuthenticated,
+  isOwner,
+  allowImages,
+} = require("../middlewares/auth");
 const controller = require("../controllers/posts");
 
 module.exports = (express, app) => {
@@ -13,7 +17,7 @@ module.exports = (express, app) => {
 
   router.put("/:uuid", isOwner, multer, controller.modify);
 
-  app.use("/upload", express.static("./upload"));
+  app.use("/upload", allowImages, express.static("./upload"));
 
   app.use("/posts", router);
 };
