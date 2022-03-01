@@ -6,6 +6,7 @@
       min-width="200"
       src="/icon-left-font-monochrome-black.svg"
       alt="logo"
+      @click="$router.push('/news')"
     />
   </v-app-bar>
 </template>
