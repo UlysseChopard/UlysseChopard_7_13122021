@@ -1,5 +1,6 @@
+const path = require("path");
 const { Post } = require("../models");
-const { unlink } = require("fs");
+const { unlink } = require("fs/promises");
 
 exports.getAll = async (req, res) => {
   try {
@@ -24,14 +25,19 @@ exports.remove = async (req, res) => {
       return res.status(401).json({ message: "Ownership required" });
     }
     if (post.image) {
-      const imagePath = `../${post.image.split("/").slice(-2).join("/")}`;
-      unlink(imagePath, (err) => {
-        if (err) throw err;
-        console.log(`image ${imagePath} deleted`);
-      });
+      try {
+        const imgPath = path.normalize(
+          `/usr/src/app/${post.image.split("/").slice(-2).join("/")}`
+        );
+        console.log(imgPath);
+        await unlink(imgPath);
+        console.log("image deleted:", imgPath);
+      } catch (e) {
+        return res.status(500).json(e); // remettre à 500
+      }
     }
     await post.destroy();
-    return res.status(204).json({ message: "Post deleted" });
+    return res.status(200).json({ message: "Post deleted" });
   } catch (e) {
     console.error(e);
     return res.status(500).json(e);
