@@ -26,10 +26,9 @@ const mutations = {
 };
 
 const actions = {
-  async create({ commit, dispatch }, formData) {
+  async create({ dispatch }, formData) {
     try {
       const res = await postsAPI.create(formData);
-      // commit("add", res.data);
       router.push("/news");
       dispatch(
         "notif/push_notif",

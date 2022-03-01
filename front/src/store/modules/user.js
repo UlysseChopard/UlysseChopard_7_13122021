@@ -30,7 +30,6 @@ const mutations = {
 
 const actions = {
   async signup({ commit, dispatch }, user) {
-    user.email += "@groupomania.com";
     try {
       const res = await userAPI.signup(user);
       if (res.status < 200 || res.status >= 300) {
@@ -48,7 +47,6 @@ const actions = {
     }
   },
   async login({ commit, dispatch }, user) {
-    user.email += "@groupomania.com";
     try {
       const res = await userAPI.login(user);
       if (res.status < 200 || res.status >= 300) {
@@ -91,6 +89,40 @@ const actions = {
       dispatch(
         "notif/push_notif",
         { data: res.data, type: "success" },
+        { root: true }
+      );
+    } catch (e) {
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
+  async modifyPassword(
+    { commit, dispatch, state },
+    { prevPassword, password }
+  ) {
+    try {
+      const verif = await userAPI.login({
+        email: state.email,
+        password: prevPassword,
+      });
+      if (verif.status < 200 || verif.status >= 300) {
+        return dispatch(
+          "push_notif",
+          {
+            data: {
+              message: "This was not your previous password. Please retry",
+            },
+            type: "waning",
+          },
+          { root: true }
+        );
+      }
+      const res = await userAPI.modify({ password });
+      if (res.status >= 200 && res.status < 300) {
+        commit("login", res.data.user);
+      }
+      dispatch(
+        "notif/push_notif",
+        { data: res.data, type: "error" },
         { root: true }
       );
     } catch (e) {
