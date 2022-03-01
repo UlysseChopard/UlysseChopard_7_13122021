@@ -15,7 +15,8 @@
             <v-text-field
               label="Adresse mail"
               v-model.lazy.trim="credentials.email"
-              suffix="@groupomania.com"
+              :rules="[isGroupomaniaEmail]"
+              placeholder="jean.dupont@groupomania.com"
               required
             />
           </v-col>
@@ -24,6 +25,7 @@
               label="Mot de passe"
               v-model.trim.lazy="credentials.password"
               type="password"
+              autocomplete="current-password"
               required
             />
           </v-col>
@@ -65,7 +67,8 @@
 </template>
 <script setup>
 import { useStore } from "vuex";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+import { isGroupomaniaEmail } from "./utils.js";
 
 const credentials = reactive({
   password: "",

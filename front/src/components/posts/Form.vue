@@ -18,6 +18,7 @@
     <v-row justify="center">
       <v-col v-show="isFileInput" cols="12" md="6">
         <v-file-input
+          ref="fileInput"
           label="Charger une image"
           accept="image/*"
           v-model="file"
@@ -31,7 +32,7 @@
         /></v-btn>
       </v-col>
       <v-col cols="2" md="1">
-        <v-btn icon color="secondary" @click="isFileInput = !isFileInput">
+        <v-btn icon color="secondary" @click="openFileInput">
           <v-icon :icon="mdiCamera" />
         </v-btn>
       </v-col>
@@ -59,6 +60,8 @@ const store = useStore();
 
 const content = ref("");
 
+const fileInput = ref("fileInput");
+
 const file = ref([]);
 
 const isFileInput = ref(false);
@@ -72,5 +75,14 @@ const createPost = () => {
     formData.append("upload", file.value[0]);
   }
   store.dispatch("posts/create", formData);
+};
+
+const openFileInput = () => {
+  isFileInput.value = !isFileInput.value;
+  if (isFileInput.value) {
+    fileInput.value.click();
+  } else {
+    file.value = [];
+  }
 };
 </script>

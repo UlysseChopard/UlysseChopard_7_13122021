@@ -31,7 +31,8 @@
             <v-text-field
               label="Adresse mail"
               v-model.lazy.trim="user.email"
-              suffix="@groupomania.com"
+              :rules="[isGroupomaniaEmail]"
+              placeholder="john.doe@groupomania.com"
               required
             />
           </v-col>
@@ -55,6 +56,7 @@
               label="Code modérateur"
               v-model="user.moderatorCode"
               type="password"
+              autocomplete="new-pasword"
               required
             />
           </v-col>
@@ -97,6 +99,7 @@
 <script setup>
 import { reactive } from "vue";
 import { useStore } from "vuex";
+import { isGroupomaniaEmail } from "./utils";
 
 const user = reactive({
   email: "",

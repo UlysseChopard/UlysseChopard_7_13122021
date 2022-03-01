@@ -37,9 +37,16 @@
             <v-card-text>
               <v-text-field
                 label="Mot de passe actuel"
+                type="password"
                 v-model="prevPassword"
+                autocomplete="current-password"
               />
-              <v-text-field label="Nouveau mot de passe" v-model="password" />
+              <v-text-field
+                label="Nouveau mot de passe"
+                type="password"
+                v-model="password"
+                autocomplete="new-password"
+              />
             </v-card-text>
             <v-card-actions>
               <v-row justify="center">
