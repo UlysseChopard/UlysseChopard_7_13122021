@@ -14,18 +14,15 @@
             </v-menu>
           </v-card-actions>
           <v-card-header>
-            <v-card-header-text
-              >{{ post.user.firstname }} {{ post.user.lastname }} le
-              {{ new Date(post.createdAt).toLocaleDateString("fr-FR") }} à
-              {{
-                new Date(post.createdAt).toLocaleTimeString("fr-FR")
-              }}</v-card-header-text
-            >
+            <v-card-header-text>{{ publicationInfos }}</v-card-header-text>
           </v-card-header>
-          <v-card-title>{{ post.title }}</v-card-title>
           <v-card-text>{{ post.content }}</v-card-text>
+          <v-img
+            v-if="post?.image"
+            :src="post.image"
+            @click="toggleFullscreen($event)"
+          />
         </v-card>
-        <v-img v-if="post?.image" :src="post.image" />
       </v-col>
     </v-row>
   </v-container>
@@ -51,10 +48,32 @@ const isModerator = computed(() => store.state.user.isModerator);
 const isOwner = computed(
   () => post.value.user.email === store.state.user.email
 );
+const publicationInfos = computed(() => {
+  const pubDate = new Date(post.value.createdAt);
+  return `Publié par ${post.value.user.firstname} ${
+    post.value.user.lastname
+  } le ${pubDate.toLocaleDateString("fr-FR")} à ${pubDate.toLocaleTimeString(
+    "fr-FR"
+  )}`;
+});
 
 const moderatePost = (id) => store.dispatch("posts/moderate", id);
 const deletePost = (id) => store.dispatch("posts/remove", id);
 
 const hidePost = (id) =>
   isModerator.value ? moderatePost(id) : deletePost(id);
+
+const toggleFullscreen = ($event) => {
+  const element = $event.target;
+  if (document.fullscreenElement) {
+    return document.exitFullscreen(); // exit fullscreen on next click
+  }
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (this.element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen(); // Safari
+  } else if (this.element.msRequestFullscreen) {
+    element.msRequestFullscreen(); // IE11
+  }
+};
 </script>
