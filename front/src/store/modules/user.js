@@ -54,7 +54,6 @@ const actions = {
       if (res.status < 200 || res.status >= 300) {
         throw res.data;
       }
-      console.log(res);
       commit("login", res.data.user);
       router.push("/news");
       dispatch(
@@ -74,6 +73,21 @@ const actions = {
       }
       commit("logout");
       router.push("/");
+      dispatch(
+        "notif/push_notif",
+        { data: res.data, type: "success" },
+        { root: true }
+      );
+    } catch (e) {
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
+  async modify({ commit, dispatch }, data) {
+    try {
+      const res = await userAPI.modify(data);
+      if (res.status >= 200 && res.status < 300) {
+        commit("login", res.data.user);
+      }
       dispatch(
         "notif/push_notif",
         { data: res.data, type: "success" },

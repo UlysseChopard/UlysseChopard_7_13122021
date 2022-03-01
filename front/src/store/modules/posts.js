@@ -53,7 +53,20 @@ const actions = {
   async moderate({ commit, dispatch }, id) {
     try {
       const res = await postsAPI.moderate(id);
-      commit("remove", id);
+      if (res.status >= 200 && res.status < 300) {
+        commit("remove", id);
+      }
+      dispatch("notif/push_notif", { data: res.data }, { root: true });
+    } catch (e) {
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
+  async remove({ commit, dispatch }, id) {
+    try {
+      const res = await postsAPI.remove(id);
+      if (res.status >= 200 && res.status < 300) {
+        commit("remove", id);
+      }
       dispatch("notif/push_notif", { data: res.data }, { root: true });
     } catch (e) {
       dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });

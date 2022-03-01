@@ -10,4 +10,7 @@ export default {
   logout() {
     return axios.post("/logout");
   },
+  modify(infos) {
+    return axios.put("/users", infos);
+  },
 };

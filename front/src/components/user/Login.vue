@@ -55,7 +55,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn to="/signup" density="compact" variant="text">
-              Je n'ai pas de compte
+              Créer un compte
             </v-btn>
           </v-col>
         </v-row>

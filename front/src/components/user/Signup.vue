@@ -85,7 +85,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn to="/login" density="compact" variant="text">
-              J'ai un compte
+              J'ai déjà un compte
             </v-btn>
           </v-col>
         </v-row>

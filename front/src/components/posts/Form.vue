@@ -11,12 +11,12 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col v-show="isGifSelection" cols="6">
+      <v-col v-show="isGifSelection" cols="12" md="6">
         <p>GIF selection</p>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col v-show="isFileInput" cols="6">
+      <v-col v-show="isFileInput" cols="12" md="6">
         <v-file-input
           label="Charger une image"
           accept="image/*"

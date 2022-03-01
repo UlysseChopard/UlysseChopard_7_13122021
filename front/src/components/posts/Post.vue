@@ -4,12 +4,14 @@
       <v-col cols="10" sm="8" md="6">
         <v-card>
           <v-card-actions>
-            <v-btn
-              v-if="$store.state.user.isModerator"
-              flat
-              @click="moderatePost(post.id)"
-              ><v-icon :icon="mdiCloseCircle"
-            /></v-btn>
+            <v-menu v-if="isModerator || isOwner">
+              <template #activator="{ props }">
+                <v-btn v-bind="props" :icon="mdiDotsVertical" />
+              </template>
+              <v-btn flat @click="hidePost(post.id)"
+                ><v-icon :icon="mdiCloseCircle"
+              /></v-btn>
+            </v-menu>
           </v-card-actions>
           <v-card-header>
             <v-card-header-text
@@ -30,17 +32,29 @@
 </template>
 
 <script setup>
-import { mdiCloseCircle } from "@mdi/js";
+import { mdiCloseCircle, mdiDotsVertical } from "@mdi/js";
 import { useStore } from "vuex";
+import { computed, toRefs } from "vue";
 
 const store = useStore();
 
-defineProps({
+const props = defineProps({
   post: {
     type: Object,
     required: true,
   },
 });
 
+const { post } = toRefs(props);
+
+const isModerator = computed(() => store.state.user.isModerator);
+const isOwner = computed(
+  () => post.value.user.email === store.state.user.email
+);
+
 const moderatePost = (id) => store.dispatch("posts/moderate", id);
+const deletePost = (id) => store.dispatch("posts/remove", id);
+
+const hidePost = (id) =>
+  isModerator.value ? moderatePost(id) : deletePost(id);
 </script>

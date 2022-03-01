@@ -14,4 +14,7 @@ export default {
   moderate(id) {
     return axios.put(`/posts/moderator/${id}`);
   },
+  remove(id) {
+    return axios.delete(`/posts/${id}`);
+  },
 };

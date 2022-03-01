@@ -1,14 +1,16 @@
 const controller = require("../controllers/user");
-const { isOwner } = require("../middlewares/auth");
+const { isAuthenticated } = require("../middlewares/auth");
 
 module.exports = (express, app) => {
   const router = express.Router();
 
-  router.use(isOwner);
+  router.use(isAuthenticated);
+  // Seul l'utilisateur peut modifier son compte
+  router.put("/", controller.modify);
 
-  router.get("/:uuid", controller.get);
+  router.get("/", controller.get);
 
-  router.put("/:uuid", controller.modify);
+  router.put("/", controller.modify);
 
   router.delete("/:uuid", controller.remove);
 

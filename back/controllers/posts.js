@@ -15,13 +15,19 @@ exports.getAll = async (req, res) => {
 };
 
 exports.remove = async (req, res) => {
-  const id = req.params.id;
   try {
-    const post = await Post.findOne({ where: { id } });
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+      include: "user",
+    });
+    if (post.user.uuid !== req.user.uuid) {
+      return res.status(401).json({ message: "Ownership required" });
+    }
     if (post.image) {
-      unlink(`/upload/${post.image}`, (err) => {
+      const imagePath = `../${post.image.split("/").slice(-2).join("/")}`;
+      unlink(imagePath, (err) => {
         if (err) throw err;
-        console.log(`image ${post.image} deleted`);
+        console.log(`image ${imagePath} deleted`);
       });
     }
     await post.destroy();
@@ -35,10 +41,8 @@ exports.remove = async (req, res) => {
 exports.moderate = async (req, res) => {
   try {
     const post = await Post.findOne({ where: { id: req.params.id } });
-    if (post.userId !== req.user.id) {
-      console.log("user", req.user.id);
-      console.log("post", post.userId);
-      res.status(401).json({ message: "Requires ownership" });
+    if (req.user.role !== "moderator") {
+      return res.status(401).json({ message: "Requires moderator role" });
     }
     post.isHidden = true;
     await post.save();
