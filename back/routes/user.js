@@ -10,6 +10,8 @@ module.exports = (express, app) => {
 
   router.get("/", controller.get);
 
+  router.get("/session", controller.getSession);
+
   router.put("/", controller.modify);
 
   router.delete("/:uuid", controller.remove);

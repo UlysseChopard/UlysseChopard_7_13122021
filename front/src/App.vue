@@ -37,7 +37,7 @@ let drawerTimeout;
 
 const automaticallyCloseDrawer = () => {
   drawer.value = true;
-  drawerTimeout = setTimeout(() => (drawer.value = false), 4000);
+  drawerTimeout = setTimeout(() => (drawer.value = false), 3000);
 };
 
 const openDrawer = () => {

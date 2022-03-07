@@ -36,7 +36,7 @@ const actions = {
         throw res.data;
       }
       commit("login", res.data.user);
-      router.push("/news");
+      router.push("/");
       dispatch(
         "notif/push_notif",
         { data: res.data, type: "success" },
@@ -53,7 +53,7 @@ const actions = {
         throw res.data;
       }
       commit("login", res.data.user);
-      router.push("/news");
+      router.push("/");
       dispatch(
         "notif/push_notif",
         { data: res.data, type: "success" },
@@ -125,6 +125,21 @@ const actions = {
         { data: res.data, type: "error" },
         { root: true }
       );
+    } catch (e) {
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
+  async getSession({ commit, dispatch }) {
+    try {
+      const res = await userAPI.getSession();
+      if (res.data?.user) {
+        commit("login", res.data.user);
+        dispatch(
+          "notif/push_notif",
+          { data: { message: "Reconnecté" }, type: "success" },
+          { root: true }
+        );
+      }
     } catch (e) {
       dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }

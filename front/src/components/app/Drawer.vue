@@ -3,7 +3,7 @@
     <v-list>
       <v-list-item @click="logout">Déconnexion</v-list-item>
       <v-list-item to="/account">Mon compte</v-list-item>
-      <v-list-item to="/news">Derniers posts</v-list-item>
+      <v-list-item to="/">Derniers posts</v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

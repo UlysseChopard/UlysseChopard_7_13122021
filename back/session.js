@@ -10,19 +10,19 @@ passport.serializeUser(controller.serialize);
 
 passport.deserializeUser(controller.deserialize);
 
-module.exports = (sequelize, app) => {
-  const myStore = new SequelizeStore({ db: sequelize, tableName: "sessions" });
+module.exports = (db, app) => {
+  const store = new SequelizeStore({ db, tableName: "sessions" });
 
   app.use(
     session({
       secret: "Keyboard cat",
       resave: false,
       saveUninitialized: true,
-      store: myStore,
+      store,
     })
   );
 
-  myStore.sync();
+  store.sync();
 
   app.use(passport.initialize());
 

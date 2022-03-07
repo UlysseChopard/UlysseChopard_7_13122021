@@ -40,7 +40,7 @@
     <v-spacer />
     <v-row justify="space-around">
       <v-col cols="6" md="1">
-        <v-btn flat to="/news">Retour</v-btn>
+        <v-btn flat to="/">Retour</v-btn>
       </v-col>
       <v-col cols="6" md="1">
         <v-btn color="green" text-color="white" @click="createPost"
