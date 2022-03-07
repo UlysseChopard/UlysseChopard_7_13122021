@@ -3,17 +3,16 @@ const server = require("./server");
 const db = require("./db");
 const session = require("./session");
 const routes = require("./routes");
+const socketIO = require("./websocket");
 const appMiddlewares = require("./middlewares/app");
 const cors = require("./middlewares/cors");
-
-const { sequelize } = require("./models");
 
 const app = express();
 
 appMiddlewares(express, app);
 
 // Session avant CORS et routes
-session(sequelize, app);
+db().then((sequelize) => session(sequelize, app));
 
 cors(app);
 
@@ -35,6 +34,4 @@ app.use((err, req, res) => {
   });
 });
 
-db(sequelize);
-
-server(app);
+server(app).then((server) => socketIO(server));

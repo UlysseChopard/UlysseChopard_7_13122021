@@ -1,11 +1,7 @@
 const cors = require("cors");
 
-const logOrigin = (origin, done) => {
-  console.log(origin);
-  done(null, true);
-};
 const corsOptions = {
-  origin: logOrigin,
+  origin: ["http://localhost", "http://localhost:8080"],
   credentials: true,
 };
 

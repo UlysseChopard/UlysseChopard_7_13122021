@@ -1,10 +1,8 @@
-module.exports = async (sequelize) => {
-  try {
-    await sequelize.sync({ force: true });
-    console.log("Connected to database");
-  } catch (e) {
-    console.error(e);
-  }
+const { sequelize } = require("./models");
+
+module.exports = async () => {
+  await sequelize.sync({ force: true });
+  console.log("Connected to database");
 
   const close = async () => {
     try {
@@ -15,5 +13,7 @@ module.exports = async (sequelize) => {
     }
   };
 
-  process.on("beforeExit", close);
+  process.on("SIGTERM", close);
+
+  return sequelize;
 };
