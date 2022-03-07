@@ -70,7 +70,7 @@ const actions = {
         throw res.data;
       }
       commit("logout");
-      router.push("/");
+      router.push("/home");
       dispatch(
         "notif/push_notif",
         { data: res.data, type: "success" },
