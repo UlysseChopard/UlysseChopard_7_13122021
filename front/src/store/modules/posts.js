@@ -28,8 +28,8 @@ const mutations = {
 const actions = {
   async create({ dispatch }, formData) {
     try {
-      const res = await postsAPI.create(formData);
-      router.push("/news");
+      await postsAPI.create(formData);
+      router.push("/");
       dispatch(
         "notif/push_notif",
         { data: { message: "Post créé" }, type: "success" },

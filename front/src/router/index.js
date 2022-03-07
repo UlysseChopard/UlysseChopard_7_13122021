@@ -4,7 +4,7 @@ import Home from "../views/Home.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: Home,
   },
@@ -40,7 +40,7 @@ const routes = [
     ],
   },
   {
-    path: "/news",
+    path: "/",
     name: "News",
     component: () => import("@/views/News.vue"),
     meta: {
@@ -66,7 +66,10 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
+  if (to.fullPath === "/" && !store.state.user.isAuth) {
+    await store.dispatch("user/getSession");
+  }
   const isAuth = store.state.user.isAuth;
 
   if (to.meta.requiresAuth && !isAuth) {
@@ -76,13 +79,13 @@ router.beforeEach((to, from) => {
       },
       type: "warning",
     });
-    return "/login";
+    return "/home";
   }
 
   if (to.name === "NotFound") {
     store.dispatch("notif/push_notif", {
       data: {
-        message: `La page ${to.params.pathMatch} n'existe pas ou a été retirée. N'hésitez pas à contacter notre service client en cas de besoin.`,
+        message: `La page ${to.params.pathMatch} n'existe pas ou a été retirée. N'hésitez pas à contacter notre service client.`,
       },
     });
     return false;

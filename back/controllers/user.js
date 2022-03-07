@@ -49,3 +49,5 @@ exports.remove = async (req, res) => {
     return res.status(500).json(e);
   }
 };
+
+exports.getSession = (req, res) => res.json({ user: req.user });
