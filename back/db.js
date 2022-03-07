@@ -1,4 +1,6 @@
-module.exports = async (sequelize) => {
+const { sequelize } = require("./models");
+
+module.exports = async () => {
   try {
     await sequelize.sync({ force: true });
     console.log("Connected to database");
@@ -16,4 +18,6 @@ module.exports = async (sequelize) => {
   };
 
   process.on("beforeExit", close);
+
+  return sequelize;
 };

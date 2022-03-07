@@ -7,8 +7,6 @@ const appMiddlewares = require("./middlewares/app");
 const cors = require("./middlewares/cors");
 const catchAll = require("./middlewares/catch_all");
 
-const { sequelize } = require("./models");
-
 const app = express();
 
 // Session avant CORS et routes
