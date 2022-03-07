@@ -11,11 +11,13 @@ const catchAll = require("./middlewares/catch_all");
 const app = express();
 
 // Session avant CORS et routes
-db().then((sequelize) => {
-  appMiddlewares(express, app);
-  session(sequelize, app);
-  cors(app);
-  routes(express, app);
-  catchAll(app);
-  return server(app);
-});
+db()
+  .then((sequelize) => {
+    appMiddlewares(express, app);
+    session(sequelize, app);
+    cors(app);
+    routes(express, app);
+    catchAll(app);
+    return server(app);
+  })
+  .then(socketIO);
