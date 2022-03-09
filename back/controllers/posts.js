@@ -15,28 +15,30 @@ exports.getAll = async (req, res) => {
   }
 };
 
+const deletePost = async (post, userUUID) => {
+  if (post.user.uuid !== userUUID) {
+    return res.status(401).json({ message: "Ownership required" });
+  }
+  if (post.image) {
+    const imgPath = path.normalize(
+      `/usr/src/app/${post.image.split("/").slice(-2).join("/")}`
+    );
+    await unlink(imgPath);
+  }
+  await post.destroy();
+};
+
 exports.remove = async (req, res) => {
   try {
     const post = await Post.findOne({
       where: { id: req.params.id },
       include: "user",
     });
-    if (post.user.uuid !== req.user.uuid) {
-      return res.status(401).json({ message: "Ownership required" });
-    }
-    if (post.image) {
-      try {
-        const imgPath = path.normalize(
-          `/usr/src/app/${post.image.split("/").slice(-2).join("/")}`
-        );
-        console.log(imgPath);
-        await unlink(imgPath);
-        console.log("image deleted:", imgPath);
-      } catch (e) {
-        return res.status(500).json(e); // remettre à 500
-      }
-    }
-    await post.destroy();
+    const comments = await Post.findAll({
+      where: { thread: req.params.id },
+    });
+    console.log("comments", comments);
+    await deletePost(post, req.user.uuid);
     return res.status(200).json({ message: "Post deleted" });
   } catch (e) {
     console.error(e);
@@ -59,9 +61,7 @@ exports.moderate = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { content } = req.body;
-  console.log("body", req.body);
-  console.log("file", req.file);
+  const { content, thread = null } = req.body;
   const image = req.file
     ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
     : null;
@@ -69,6 +69,7 @@ exports.create = async (req, res) => {
     const post = await Post.create({
       content,
       image,
+      thread,
       userId: req.user.id,
     });
     const postAndUser = {

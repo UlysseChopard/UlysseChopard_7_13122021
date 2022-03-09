@@ -5,7 +5,8 @@
         <v-textarea
           clearable
           autofocus
-          placeholder="Que voulez-vous partager ?"
+          no-resize
+          label="Que voulez-vous partager ?"
           v-model="content"
         />
       </v-col>
@@ -27,14 +28,21 @@
     </v-row>
     <v-row justify="center">
       <v-col cols="2" md="1">
-        <v-btn icon color="primary" @click="isGifSelection = !isGifSelection"
-          ><v-icon :icon="mdiFileGifBox"
-        /></v-btn>
+        <v-btn
+          :icon="mdiFileGifBox"
+          color="primary"
+          @click="isGifSelection = !isGifSelection"
+          title="GIF"
+        />
       </v-col>
       <v-col cols="2" md="1">
-        <v-btn icon color="secondary" @click="openFileInput">
-          <v-icon :icon="mdiCamera" />
-        </v-btn>
+        <v-btn
+          :icon="mdiCamera"
+          color="secondary"
+          @click="openFileInput"
+          title="Image"
+          >Charger une image</v-btn
+        >
       </v-col>
     </v-row>
     <v-spacer />
@@ -43,7 +51,7 @@
         <v-btn flat to="/">Retour</v-btn>
       </v-col>
       <v-col cols="6" md="1">
-        <v-btn color="green" text-color="white" @click="createPost"
+        <v-btn color="green-darken-3" text-color="white" @click="createPost"
           >Poster</v-btn
         >
       </v-col>
@@ -55,6 +63,9 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { mdiCamera, mdiFileGifBox } from "@mdi/js";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const store = useStore();
 
@@ -69,12 +80,12 @@ const isFileInput = ref(false);
 const isGifSelection = ref(false);
 
 const createPost = () => {
-  const formData = new FormData();
-  formData.append("content", content.value);
+  const post = new FormData();
+  post.append("content", content.value);
   if (file.value.length > 0) {
-    formData.append("upload", file.value[0]);
+    post.append("upload", file.value[0]);
   }
-  store.dispatch("posts/create", formData);
+  store.dispatch("posts/create", { post }).then(() => router.push("/"));
 };
 
 const openFileInput = () => {

@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
         allowNull: false,
       },
+      thread: {
+        type: DataTypes.INTEGER,
+        defaultValue: null,
+        allowNull: true,
+      },
     },
     {
       sequelize,

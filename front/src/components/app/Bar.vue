@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app density="compact">
-    <v-app-bar-nav-icon @click="$emit('switchDrawer')" />
+    <v-app-bar-nav-icon title="menu-icon" @click="$emit('switchDrawer')" />
     <v-img
       max-height="36"
       min-width="200"

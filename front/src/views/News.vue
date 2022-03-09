@@ -17,7 +17,8 @@ import { computed, onBeforeMount } from "vue";
 
 const store = useStore();
 
-const posts = computed(() => store.state.posts.list);
+// Liste des posts renversée pour montrer les derniers posts en premier
+const posts = computed(() => store.state.posts.list.reverse());
 
 onBeforeMount(() => store.dispatch("posts/get"));
 </script>

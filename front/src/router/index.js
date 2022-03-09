@@ -50,7 +50,7 @@ const routes = [
   {
     path: "/post",
     name: "Post",
-    component: () => import("@/components/posts/Form.vue"),
+    component: () => import("@/components/posts/PostForm.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -70,17 +70,17 @@ router.beforeEach(async (to, from) => {
   if (to.fullPath === "/" && !store.state.user.isAuth) {
     await store.dispatch("user/getSession");
   }
-  const isAuth = store.state.user.isAuth;
+  // const isAuth = store.state.user.isAuth;
 
-  if (to.meta.requiresAuth && !isAuth) {
-    store.dispatch("notif/push_notif", {
-      data: {
-        message: "This page requires authentication",
-      },
-      type: "warning",
-    });
-    return "/home";
-  }
+  // if (to.meta.requiresAuth && !isAuth) {
+  //   store.dispatch("notif/push_notif", {
+  //     data: {
+  //       message: "This page requires authentication",
+  //     },
+  //     type: "warning",
+  //   });
+  //   return "/home";
+  // }
 
   if (to.name === "NotFound") {
     store.dispatch("notif/push_notif", {

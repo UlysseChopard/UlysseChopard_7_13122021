@@ -9,8 +9,10 @@
     <v-main>
       <v-container fluid>
         <router-view />
-        {{ $store.state.user }}
+        <pre>
+        
         {{ $store.state.posts }}
+        </pre>
       </v-container>
     </v-main>
     <Footer />
