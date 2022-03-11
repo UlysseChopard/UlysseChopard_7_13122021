@@ -5,3 +5,8 @@ Ce projet final réalisé dans le cadre de ma formation de développeur web chez
 ## Lancement
 
 `docker compose up`
+
+## Développements possibles
+
+- Socket.io pour la gestion des messages
+- Déploiement sur AWS avec ECS
