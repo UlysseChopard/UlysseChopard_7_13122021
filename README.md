@@ -4,4 +4,4 @@ Ce projet final réalisé dans le cadre de ma formation de développeur web chez
 
 ## Lancement
 
-`docker comppse up`
+`docker compose up`
