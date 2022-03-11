@@ -1,10 +1,10 @@
 <template>
-  <v-container fluid>
-    <v-container fluid>
-      <v-row justify="center">
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="10" sm="6" md="8">
         <Post v-for="(post, idx) of posts" :key="idx" :post="post" />
-      </v-row>
-    </v-container>
+      </v-col>
+    </v-row>
     <AddContent />
   </v-container>
 </template>
