@@ -6,7 +6,8 @@ Ce projet final réalisé dans le cadre de ma formation de développeur web chez
 
 `docker compose up`
 
-## Développements possibles
+## Améliorations possibles
 
 - Socket.io pour la gestion des messages
+- API Gateway avec APISix
 - Déploiement sur AWS avec ECS
