@@ -1,10 +1,10 @@
 <template>
-  <v-container fluid>
-    <v-container fluid>
-      <v-row justify="center">
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="10" sm="6" md="8">
         <Post v-for="(post, idx) of posts" :key="idx" :post="post" />
-      </v-row>
-    </v-container>
+      </v-col>
+    </v-row>
     <AddContent />
   </v-container>
 </template>
@@ -17,7 +17,8 @@ import { computed, onBeforeMount } from "vue";
 
 const store = useStore();
 
-const posts = computed(() => store.state.posts.list);
+// Liste des posts renversée pour montrer les derniers posts en premier
+const posts = computed(() => store.state.posts.list.reverse());
 
 onBeforeMount(() => store.dispatch("posts/get"));
 </script>

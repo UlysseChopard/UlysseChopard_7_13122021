@@ -50,7 +50,7 @@ const routes = [
   {
     path: "/post",
     name: "Post",
-    component: () => import("@/components/posts/Form.vue"),
+    component: () => import("@/components/posts/PostForm.vue"),
     meta: {
       requiresAuth: true,
     },

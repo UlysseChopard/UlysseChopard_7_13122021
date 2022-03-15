@@ -9,8 +9,6 @@
     <v-main>
       <v-container fluid>
         <router-view />
-        {{ $store.state.user }}
-        {{ $store.state.posts }}
       </v-container>
     </v-main>
     <Footer />
@@ -37,7 +35,7 @@ let drawerTimeout;
 
 const automaticallyCloseDrawer = () => {
   drawer.value = true;
-  drawerTimeout = setTimeout(() => (drawer.value = false), 3000);
+  drawerTimeout = setTimeout(() => (drawer.value = false), 1500);
 };
 
 const openDrawer = () => {

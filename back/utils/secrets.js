@@ -1,6 +1,9 @@
 const fs = require("fs");
 
 module.exports = (path) => {
+  if (process.env.NODE_ENV !== "production") {
+    return;
+  }
   try {
     return fs.readFileSync(path, "utf-8");
   } catch (e) {

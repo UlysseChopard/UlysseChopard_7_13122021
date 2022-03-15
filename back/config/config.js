@@ -3,8 +3,8 @@ const secret = require("../utils/secrets");
 module.exports = {
   development: {
     username: "user",
-    password: "password",
-    database: "groupomania_dev",
+    password: "userpassword",
+    database: "groupomania",
     host: "127.0.0.1",
     dialect: "mysql",
   },
