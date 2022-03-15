@@ -19,6 +19,7 @@ module.exports = (db, app) => {
       resave: false,
       saveUninitialized: true,
       store,
+      cookie: { domain: "http://localhost" },
     })
   );
 

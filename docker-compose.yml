@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  back:
-    build: ./back
-    container_name: back_p7
+  api:
+    build: ./api
+    container_name: api_p7
     environment:
      DB_USR_FILE: /run/secrets/db_usr
      DB_PASS_FILE: /run/secrets/db_pass
@@ -15,27 +15,36 @@ services:
      - db_pass
      - db_name 
      - moderator_pass
-    volumes:
-     - ./back:/app
     ports:
      - 3000:3000
     networks:
-     - frontend
-     - backend
+     - front
+     - db
     restart: unless-stopped
+    depends_on:
+     - database
 
   front:
    build: ./front
    container_name: front_p7
-   volumes:
-     - ./front:/app
    ports:
-    - 8080:80
+    - 80:80
    networks:
-    - frontend
+    - front
    restart: unless-stopped
    depends_on:
-    - back
+    - api
+    - websocket
+  websocket:
+    build: ./ws
+    container_name: ws_p7
+    ports:
+     - 1895:1895
+    networks:
+      - front
+      - db
+    depends_on:
+      - database
 
   database:
     image: mysql:latest
@@ -51,7 +60,7 @@ services:
       - db_usr 
       - db_name 
     networks:
-     - backend
+     - db
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 20s
@@ -60,8 +69,8 @@ services:
       start_period: 20s
 
 networks:
-  backend:
-  frontend:
+  db:
+  front:
 
 secrets:
   db_root:

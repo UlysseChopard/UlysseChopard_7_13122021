@@ -4,7 +4,7 @@ import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
 import router from "./router";
 import store from "./store";
-import socketIO from "./websocket";
+import socketIO from "./plugins/socket_io";
 
 loadFonts();
 

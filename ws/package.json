@@ -1,0 +1,15 @@
+{
+  "name": "ws",
+  "version": "1.0.0",
+  "description": "bi-directionnal communication for the app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "UCG",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "socket.io": "^4.4.1"
+  }
+}

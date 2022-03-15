@@ -1,0 +1,22 @@
+FROM node:lts-alpine
+
+ENV NODE_ENV=production
+
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.1.1/dumb-init_1.1.1_amd64 /usr/local/bin/dumb-init
+RUN chmod +x /usr/local/bin/dumb-init
+
+RUN mkdir -p /usr/src/app/node_modules && chown -R node:node /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+
+USER node
+
+RUN npm ci --production
+
+COPY --chown=node:node . .
+
+EXPOSE 1895
+
+CMD [ "dumb-init", "node", "index" ]
