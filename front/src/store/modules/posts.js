@@ -1,4 +1,3 @@
-import router from "@/router";
 import postsAPI from "@/api/posts.js";
 
 const state = () => ({
