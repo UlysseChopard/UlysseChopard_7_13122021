@@ -4,6 +4,7 @@ services:
   back:
     build: ./back
     container_name: back_p7
+    image: uchopard/back_groupomania
     environment:
      DB_USR_FILE: /run/secrets/db_usr
      DB_PASS_FILE: /run/secrets/db_pass
@@ -15,22 +16,21 @@ services:
      - db_pass
      - db_name 
      - moderator_pass
-    volumes:
-     - ./back:/app
     ports:
      - 3000:3000
     networks:
      - frontend
      - backend
     restart: unless-stopped
+    depends_on:
+      - database
 
   front:
    build: ./front
    container_name: front_p7
-   volumes:
-     - ./front:/app
+   image: uchopard/front_groupomania
    ports:
-    - 8080:80
+    - 80:80
    networks:
     - frontend
    restart: unless-stopped
@@ -52,6 +52,8 @@ services:
       - db_name 
     networks:
      - backend
+    volumes:
+      - data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 20s
@@ -75,3 +77,6 @@ secrets:
    file: ./secrets/db_name
   moderator_pass:
    file: ./secrets/moderator_pass
+
+volumes:
+  data:

@@ -66,10 +66,14 @@ const router = createRouter({
   routes,
 });
 
+let testedSession = false;
+
 router.beforeEach(async (to, from) => {
-  if (to.fullPath === "/" && !store.state.user.isAuth) {
-    await store.dispatch("user/getSession");
+  if (!store.state.user.isAuth && !testedSession) {
+    await store.dispatch("user/testSession");
+    testedSession = true;
   }
+
   const isAuth = store.state.user.isAuth;
 
   if (to.meta.requiresAuth && !isAuth) {

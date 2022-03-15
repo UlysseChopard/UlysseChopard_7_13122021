@@ -16,7 +16,7 @@ export default {
   remove() {
     return axios.delete("/users");
   },
-  getSession() {
+  testSession() {
     return axios.get("/users/session");
   },
 };

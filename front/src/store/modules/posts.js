@@ -62,7 +62,6 @@ const actions = {
       });
       commit("update", posts);
       Object.entries(comments).forEach(([thread, comments]) => {
-        console.log("thread", thread);
         commit("updateComments", { thread, comments });
       });
     } catch (e) {

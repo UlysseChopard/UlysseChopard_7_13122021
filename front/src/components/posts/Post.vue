@@ -26,17 +26,21 @@
         >Commentaires ({{ comments.length }})</v-btn
       >
     </v-card-actions>
-    <CommentForm
-      v-show="commentForm"
-      :thread="post.id"
-      @send-comment="commentForm = false"
-    />
-    <Post
-      v-if="displayComments || (comments?.length && comments.length <= 2)"
-      v-for="comment of comments"
-      :key="comment.id"
-      :post="comment"
-    />
+    <v-row justify="end">
+      <v-col cols="11">
+        <CommentForm
+          v-show="commentForm"
+          :thread="post.id"
+          @send-comment="commentForm = false"
+        />
+        <Post
+          v-if="displayComments || (comments?.length && comments.length <= 2)"
+          v-for="comment of comments"
+          :key="comment.id"
+          :post="comment"
+        />
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 

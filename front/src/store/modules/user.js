@@ -129,9 +129,9 @@ const actions = {
       dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
-  async getSession({ commit, dispatch }) {
+  async testSession({ commit, dispatch }) {
     try {
-      const res = await userAPI.getSession();
+      const res = await userAPI.testSession();
       if (res.data?.user) {
         commit("login", res.data.user);
         dispatch(
@@ -141,7 +141,7 @@ const actions = {
         );
       }
     } catch (e) {
-      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+      console.error("L'utilisateur n'a pas de session ouverte");
     }
   },
 };
