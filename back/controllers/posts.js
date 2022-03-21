@@ -37,8 +37,8 @@ exports.remove = async (req, res) => {
     const comments = await Post.findAll({
       where: { thread: req.params.id },
     });
-    console.log("comments", comments);
     await deletePost(post, req.user.uuid);
+    comments.map((comment) => comment.destroy());
     return res.status(200).json({ message: "Post deleted" });
   } catch (e) {
     console.error(e);
@@ -85,16 +85,37 @@ exports.create = async (req, res) => {
 
 exports.modify = async (req, res) => {
   try {
-    let post = await Post.findOne({ where: { id: req.params.id } });
-    // const modifiedPost = req.file ? {
-    //   ...req.body,
-    //   image:
-    // }
-    // post = { ...post, ...req.body };
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+      include: "user",
+    });
+    if (post.user.uuid !== req.user.uuid) {
+      return res.status(401).json({ message: "Ownership required" });
+    }
+    const newData = {
+      image: req.file
+        ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
+        : null,
+      content: req.body.content,
+      thread: req.body.thread,
+    };
+    post.set(newData);
     await post.save();
     return res.status(204).json({ message: "Message modified" });
   } catch (e) {
     console.error(e);
     return res.status(500).json(e);
+  }
+};
+
+exports.getOne = async (req, res) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+    });
+    return res.json(post);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json(e);
   }
 };

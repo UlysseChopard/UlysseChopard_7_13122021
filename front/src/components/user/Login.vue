@@ -67,7 +67,7 @@
 </template>
 <script setup>
 import { useStore } from "vuex";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import { isGroupomaniaEmail } from "./utils.js";
 
 const credentials = reactive({

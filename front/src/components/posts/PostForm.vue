@@ -64,6 +64,11 @@ import { ref, toRef } from "vue";
 import { useStore } from "vuex";
 import { mdiCamera, mdiFileGifBox } from "@mdi/js";
 import { useRouter } from "vue-router";
+import postAPI from "@/api/posts";
+
+const props = defineProps(["id"]);
+
+const id = toRef(props, "id");
 
 const router = useRouter();
 
@@ -77,6 +82,15 @@ const fileInput = ref("fileInput");
 
 const file = ref([]);
 
+const image = ref("");
+
+if (id.value) {
+  postAPI.get(id.value).then((res) => {
+    image.value = res.data.image;
+    content.value = res.data.content;
+  });
+}
+
 const isFileInput = ref(false);
 
 const isGifSelection = ref(false);
@@ -86,8 +100,17 @@ const createPost = () => {
   post.append("content", content.value);
   if (file.value.length > 0) {
     post.append("upload", file.value[0]);
+  } else if (image.value) {
+    post.append("image", image.value);
   }
-  store.dispatch("posts/create", { post }).then(() => router.push("/"));
+
+  if (id.value) {
+    store
+      .dispatch("posts/modify", { post, id: id.value })
+      .then(() => router.push("/"));
+  } else {
+    store.dispatch("posts/create", { post }).then(() => router.push("/"));
+  }
 };
 
 const openFileInput = () => {

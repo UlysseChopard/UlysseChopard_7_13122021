@@ -72,6 +72,10 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             msg: "User password must be provided",
           },
+          len: {
+            args: [8, 64],
+            msg: "User password should be between 8 and 64 characters",
+          },
         },
       },
       salt: {

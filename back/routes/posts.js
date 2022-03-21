@@ -11,11 +11,13 @@ module.exports = (express, app) => {
 
   router.get("/", isAuthenticated, controller.getAll);
 
+  router.get("/:id", isAuthenticated, controller.getOne);
+
   router.delete("/:id", controller.remove);
 
   router.post("/", isAuthenticated, multer, controller.create);
 
-  router.put("/:id", multer, controller.modify);
+  router.put("/:id", isAuthenticated, multer, controller.modify);
 
   router.put("/moderator/:id", isModerator, controller.moderate);
 

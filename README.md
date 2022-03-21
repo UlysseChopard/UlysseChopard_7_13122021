@@ -4,10 +4,8 @@ Ce projet final réalisé dans le cadre de ma formation de développeur web chez
 
 ## Lancement
 
-`docker compose up`
+`docker comppse up` puis `http://localhost:8080`.
 
-## Améliorations possibles
+## Gestion des droits
 
-- Socket.io pour la gestion des messages
-- API Gateway avec APISix
-- Déploiement sur AWS avec ECS
+Le modérateur crée un compte avec les droits modérateurs en entrant le code modérateur du fichier moderator_pass du dossier secrets.
