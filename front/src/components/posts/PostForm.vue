@@ -60,12 +60,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, toRef } from "vue";
 import { useStore } from "vuex";
 import { mdiCamera, mdiFileGifBox } from "@mdi/js";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+console.log(router.props.id);
 
 const store = useStore();
 

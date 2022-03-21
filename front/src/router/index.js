@@ -48,9 +48,10 @@ const routes = [
     },
   },
   {
-    path: "/post",
+    path: "/post/:id",
     name: "Post",
     component: () => import("@/components/posts/PostForm.vue"),
+    props: true,
     meta: {
       requiresAuth: true,
     },
