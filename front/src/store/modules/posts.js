@@ -93,6 +93,22 @@ const actions = {
       dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
     }
   },
+  async modify({ dispatch }, { post, id }) {
+    try {
+      await postsAPI.modify(id, post);
+      dispatch("get");
+      const message = "Post modifié";
+      dispatch(
+        "notif/push_notif",
+        { data: { message }, type: "success" },
+        {
+          root: true,
+        }
+      );
+    } catch (e) {
+      dispatch("notif/push_notif", { data: e, type: "error" }, { root: true });
+    }
+  },
 };
 
 export default {

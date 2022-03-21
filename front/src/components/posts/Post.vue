@@ -16,6 +16,11 @@
         @click="hidePost(post.id)"
       />
       <v-btn
+        v-if="isOwner"
+        :icon="mdiCommentEdit"
+        @click="$router.push({ name: 'Post', params: { id: post.id } })"
+      />
+      <v-btn
         :icon="commentForm ? mdiCommentRemove : mdiCommentPlus"
         @click="commentForm = !commentForm"
       />
@@ -41,7 +46,12 @@
 </template>
 
 <script setup>
-import { mdiCloseCircle, mdiCommentPlus, mdiCommentRemove } from "@mdi/js";
+import {
+  mdiCloseCircle,
+  mdiCommentPlus,
+  mdiCommentRemove,
+  mdiCommentEdit,
+} from "@mdi/js";
 import { useStore } from "vuex";
 import { computed, toRefs, ref } from "vue";
 import CommentForm from "./CommentForm.vue";
