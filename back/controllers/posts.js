@@ -15,19 +15,6 @@ exports.getAll = async (req, res) => {
   }
 };
 
-const deletePost = async (post, userUUID) => {
-  if (post.user.uuid !== userUUID) {
-    return res.status(401).json({ message: "Ownership required" });
-  }
-  if (post.image) {
-    const imgPath = path.normalize(
-      `/usr/src/app/${post.image.split("/").slice(-2).join("/")}`
-    );
-    await unlink(imgPath);
-  }
-  await post.destroy();
-};
-
 exports.remove = async (req, res) => {
   try {
     const post = await Post.findOne({
@@ -37,8 +24,17 @@ exports.remove = async (req, res) => {
     const comments = await Post.findAll({
       where: { thread: req.params.id },
     });
-    await deletePost(post, req.user.uuid);
-    comments.map((comment) => comment.destroy());
+    if (post.user.uuid !== req.user.uuid) {
+      return res.status(401).json({ message: "Ownership required" });
+    }
+    if (post.image) {
+      const imgPath = path.normalize(
+        `/usr/src/app/${post.image.split("/").slice(-2).join("/")}`
+      );
+      await unlink(imgPath);
+    }
+    await post.destroy();
+    await comments.map((comment) => comment.destroy());
     return res.status(200).json({ message: "Post deleted" });
   } catch (e) {
     console.error(e);
@@ -62,9 +58,10 @@ exports.moderate = async (req, res) => {
 
 exports.create = async (req, res) => {
   const { content, thread = null } = req.body;
-  const image = req.file
-    ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
-    : null;
+  let { image } = req.body;
+  if (!image && req.file) {
+    image = `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`;
+  }
   try {
     const post = await Post.create({
       content,
@@ -83,7 +80,9 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.modify = async (req, res) => {
+exports.replace = async (req, res) => {
+  const { content } = req.body;
+  let { image = null } = req.body;
   try {
     const post = await Post.findOne({
       where: { id: req.params.id },
@@ -92,14 +91,21 @@ exports.modify = async (req, res) => {
     if (post.user.uuid !== req.user.uuid) {
       return res.status(401).json({ message: "Ownership required" });
     }
-    const newData = {
-      image: req.file
-        ? `${req.protocol}://${req.get("host")}/upload/${req.file.filename}`
-        : null,
-      content: req.body.content,
-      thread: req.body.thread,
-    };
-    post.set(newData);
+    if (post.image && (req.file || !image)) {
+      const imgPath = path.normalize(
+        `/usr/src/app/${post.image.split("/").slice(-2).join("/")}`
+      );
+      await unlink(imgPath);
+    }
+    if (!image && req.file) {
+      image = `${req.protocol}://${req.get("host")}/upload/${
+        req.file.filename
+      }`;
+    }
+    post.set({
+      content,
+      image,
+    });
     await post.save();
     return res.status(204).json({ message: "Message modified" });
   } catch (e) {

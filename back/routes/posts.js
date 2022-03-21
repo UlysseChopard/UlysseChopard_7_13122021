@@ -17,7 +17,7 @@ module.exports = (express, app) => {
 
   router.post("/", isAuthenticated, multer, controller.create);
 
-  router.put("/:id", isAuthenticated, multer, controller.modify);
+  router.put("/:id", isAuthenticated, multer, controller.replace);
 
   router.put("/moderator/:id", isModerator, controller.moderate);
 

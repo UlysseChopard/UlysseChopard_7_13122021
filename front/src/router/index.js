@@ -48,14 +48,20 @@ const routes = [
     },
   },
   {
-    path: "/post/:id",
+    path: "/post",
     name: "Post",
     component: () => import("@/components/posts/PostForm.vue"),
-    props: true,
     meta: {
       requiresAuth: true,
     },
-    props: true,
+    children: [
+      {
+        path: ":id",
+        name: "UpdatePost",
+        component: () => import("@/components/posts/PostForm.vue"),
+        props: true,
+      },
+    ],
   },
   {
     path: "/:pathMatch(.*)*",

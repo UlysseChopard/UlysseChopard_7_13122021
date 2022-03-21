@@ -44,6 +44,14 @@
           >Charger une image</v-btn
         >
       </v-col>
+      <v-col cols="2" md="1">
+        <v-btn
+          :icon="mdiFileImageRemove"
+          v-show="file.length || image"
+          title="Supprimer l'image"
+          @click="clearUpload"
+        />
+      </v-col>
     </v-row>
     <v-spacer />
     <v-row justify="space-around">
@@ -60,21 +68,16 @@
 </template>
 
 <script setup>
-import { ref, toRef } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
-import { mdiCamera, mdiFileGifBox } from "@mdi/js";
-import { useRouter } from "vue-router";
+import { mdiCamera, mdiFileGifBox, mdiFileImageRemove } from "@mdi/js";
+import { useRouter, useRoute } from "vue-router";
 import postAPI from "@/api/posts";
 
-const props = defineProps(["id"]);
-
-const id = toRef(props, "id");
-
 const router = useRouter();
-
-console.log(router.props.id);
-
+const route = useRoute();
 const store = useStore();
+const postId = route.params?.id;
 
 const content = ref("");
 
@@ -84,8 +87,8 @@ const file = ref([]);
 
 const image = ref("");
 
-if (id.value) {
-  postAPI.get(id.value).then((res) => {
+if (postId) {
+  postAPI.get(postId).then((res) => {
     image.value = res.data.image;
     content.value = res.data.content;
   });
@@ -104,9 +107,9 @@ const createPost = () => {
     post.append("image", image.value);
   }
 
-  if (id.value) {
+  if (postId) {
     store
-      .dispatch("posts/modify", { post, id: id.value })
+      .dispatch("posts/modify", { post, id: postId })
       .then(() => router.push("/"));
   } else {
     store.dispatch("posts/create", { post }).then(() => router.push("/"));
@@ -120,5 +123,10 @@ const openFileInput = () => {
   } else {
     file.value = [];
   }
+};
+
+const clearUpload = () => {
+  file.value = [];
+  image.value = "";
 };
 </script>

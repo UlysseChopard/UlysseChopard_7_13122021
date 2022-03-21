@@ -18,7 +18,7 @@
       <v-btn
         v-if="isOwner"
         :icon="mdiCommentEdit"
-        @click="$router.push({ name: 'Post', params: { id: post.id } })"
+        @click="$router.push(`/post/${post.id}`)"
       />
       <v-btn
         :icon="commentForm ? mdiCommentRemove : mdiCommentPlus"
