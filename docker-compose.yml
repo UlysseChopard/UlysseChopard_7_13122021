@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   api:
-    build: ./api
+    build: ./db_api
     container_name: api_p7
     environment:
      DB_USR_FILE: /run/secrets/db_usr
