@@ -4,7 +4,7 @@ Ce projet final réalisé dans le cadre de ma formation de développeur web chez
 
 ## Lancement
 
-`docker comppse up` puis `http://localhost:8080`.
+`docker compose up` puis `http://localhost:8080`.
 
 ## Gestion des droits
 
