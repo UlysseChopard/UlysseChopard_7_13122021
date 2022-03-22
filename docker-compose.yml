@@ -30,7 +30,7 @@ services:
    container_name: front_p7
    image: uchopard/front_groupomania
    ports:
-    - 80:80
+    - 8080:80
    networks:
     - frontend
    restart: unless-stopped
