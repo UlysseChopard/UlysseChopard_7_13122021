@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+ back:
+     image: uchopard/back_groupomania
+
+ front:
+    image: uchopard/front_groupomania

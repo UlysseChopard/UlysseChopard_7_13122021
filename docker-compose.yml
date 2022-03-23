@@ -4,7 +4,6 @@ services:
   back:
     build: ./back
     container_name: back_p7
-    image: uchopard/back_groupomania
     environment:
      DB_USR_FILE: /run/secrets/db_usr
      DB_PASS_FILE: /run/secrets/db_pass
@@ -28,7 +27,6 @@ services:
   front:
    build: ./front
    container_name: front_p7
-   image: uchopard/front_groupomania
    ports:
     - 8080:80
    networks:
