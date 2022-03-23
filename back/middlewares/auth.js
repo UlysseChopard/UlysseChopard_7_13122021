@@ -40,7 +40,6 @@ exports.checkPasswordCompliance = (req, res, next) => {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?]).+$/
     )
   ) {
-    console.log("ici");
     return res.status(400).json({
       message:
         "User password must contain at least a lowercase, an uppercase and a special character",
