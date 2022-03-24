@@ -23,6 +23,8 @@ services:
     restart: unless-stopped
     depends_on:
       - database
+    volumes:
+     - /back/upload:/usr/src/app/upload
 
   front:
    build: ./front
