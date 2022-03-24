@@ -8,11 +8,8 @@ RUN chmod +x /usr/local/bin/dumb-init
 RUN mkdir -p /usr/src/app/node_modules && chown -R node:node /usr/src/app
 
 WORKDIR /usr/src/app
-RUN mkdir upload && chown -R node:node ./upload
 
 COPY --chown=node:node package*.json ./
-
-USER node
 
 RUN npm ci --production
 
@@ -21,3 +18,5 @@ COPY --chown=node:node . .
 EXPOSE 3000
 
 CMD [ "dumb-init", "node", "app" ]
+
+USER node
